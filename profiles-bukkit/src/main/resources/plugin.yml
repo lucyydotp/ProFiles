@@ -1,0 +1,7 @@
+name: ProFiles
+version: ${project.version}
+main: me.lucyy.profiles.ProFiles
+api-version: 1.16
+authors: [ __lucyy ]
+description: The ultimate profile plugin.
+website: https://lucyy.me
