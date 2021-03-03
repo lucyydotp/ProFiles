@@ -8,12 +8,6 @@ import java.util.UUID;
  */
 public interface ProfileField {
     /**
-     * Gets the player this field belongs to
-     * @return the player's UUID
-     */
-    UUID getPlayer();
-
-    /**
      * Gets the key of this field.
      * @return this field's key
      */
@@ -26,7 +20,8 @@ public interface ProfileField {
 
     /**
      * Gets the string value of this field.
+     * @param player the player to get the value for
      * @return the value, or null if it's unset
      */
-    String getValue();
+    String getValue(UUID player);
 }

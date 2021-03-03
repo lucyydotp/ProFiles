@@ -8,16 +8,14 @@ import java.util.UUID;
  */
 public interface ProfileManager {
     /**
-     * Get all of a user's fields.
-     * @return a set of all the fields that have values
+     * Get all the active fields.
      */
-    Set<ProfileField> getFields(UUID uuid);
+    Set<ProfileField> getFields();
 
     /**
-     * Get a field for a user.
+     * Get a field.
      * @param key the key ({@link ProfileField#getKey()}) for this field
-     * @param uuid the player to get the field for
      * @return the field, or null if it hasn't been set
      */
-    ProfileField getField(String key, UUID uuid);
+    ProfileField getField(String key);
 }
