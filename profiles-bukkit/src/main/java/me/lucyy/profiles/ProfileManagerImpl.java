@@ -6,34 +6,33 @@ import me.lucyy.profiles.field.ProNounsProfileField;
 import me.lucyy.profiles.field.SimpleProfileField;
 import me.lucyy.profiles.storage.Storage;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ProfileManagerImpl implements ProfileManager {
     private final ProFiles plugin;
     private final Storage storage;
-    private final Set<ProfileField> fields = new HashSet<>();
+    private final Map<String, ProfileField> fields = new HashMap<>();
 
     public ProfileManagerImpl(ProFiles plugin, Storage storage) {
         this.plugin = plugin;
         this.storage = storage;
-        fields.add(new SimpleProfileField(this, "field1", "Field 1 (Basic)"));
-        fields.add(new SimpleProfileField(this, "field2", "Field 2 (Basic)"));
-        fields.add(new ProNounsProfileField(this, "pronouns", "Field 3 (ProNouns)",
+        fields.put("field1", new SimpleProfileField(this, "field1", "Field 1 Text"));
+        fields.put("field2", new SimpleProfileField(this, "field2", "Field 2 Text"));
+        fields.put("pronouns",new ProNounsProfileField(this, "pronouns", "Pronouns",
                 plugin.getDepHandler().getProNouns()));
     }
 
     public Storage getStorage() {
-        return null;
+        return storage;
     }
 
     @Override
-    public Set<ProfileField> getFields() {
-        return null;
+    public Collection<ProfileField> getFields() {
+        return fields.values();
     }
 
     @Override
     public ProfileField getField(String key) {
-        return null;
+        return fields.get(key);
     }
 }

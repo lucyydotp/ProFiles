@@ -6,3 +6,10 @@ authors: [ __lucyy ]
 description: The ultimate profile plugin.
 website: https://lucyy.me
 softdepend: [ ProNouns ]
+commands:
+  profile:
+    description: Show your profile.
+    usage: /profile
+  setfield:
+    description: Set a field in your profile.
+    usage: /setfield <field> <value>

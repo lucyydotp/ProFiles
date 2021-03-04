@@ -23,11 +23,12 @@ public class ProfileCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        StringBuilder output = new StringBuilder().append("Fields for ").append(player.getDisplayName());
+        StringBuilder output = new StringBuilder().append("Fields for ").append(player.getDisplayName()).append("\n");
         for (ProfileField field : manager.getFields()) {
             output.append(field.getDisplayName());
             output.append(": ");
             output.append(field.getValue(player.getUniqueId()));
+            output.append("\n");
         }
         sender.sendMessage(output.toString());
         return true;

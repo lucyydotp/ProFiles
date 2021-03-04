@@ -1,5 +1,6 @@
 package me.lucyy.profiles.api;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
@@ -10,7 +11,7 @@ public interface ProfileManager {
     /**
      * Get all the active fields.
      */
-    Set<ProfileField> getFields();
+    Collection<ProfileField> getFields();
 
     /**
      * Get a field.

@@ -1,6 +1,8 @@
 package me.lucyy.profiles;
 
 import me.lucyy.profiles.api.ProfileManager;
+import me.lucyy.profiles.command.ProfileCommand;
+import me.lucyy.profiles.command.SetFieldCommand;
 import me.lucyy.profiles.storage.Storage;
 import me.lucyy.profiles.storage.YamlStorage;
 import org.bukkit.plugin.ServicePriority;
@@ -13,11 +15,14 @@ public final class ProFiles extends JavaPlugin {
     private Storage storage;
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public void onEnable() {
         storage = new YamlStorage(this);
         profileManager = new ProfileManagerImpl(this, storage);
 
         getServer().getServicesManager().register(ProfileManager.class, profileManager, this, ServicePriority.Normal);
+        getCommand("profile").setExecutor(new ProfileCommand(profileManager));
+        getCommand("setfield").setExecutor(new SetFieldCommand(profileManager));
     }
 
     @Override
