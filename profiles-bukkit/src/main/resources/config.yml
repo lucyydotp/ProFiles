@@ -1,0 +1,8 @@
+# ProFiles Config File v1.0.0-SNAPSHOT
+# DEVELOPMENT VERSION - LIABLE TO CHANGE
+
+fields:
+  pronouns:
+    key: "pronouns"
+    type: "pronouns"
+    displayName: "Pronouns"

@@ -5,10 +5,12 @@ import me.lucyy.profiles.api.SettableProfileField;
 
 import java.util.UUID;
 
-public class SimpleProfileField extends ProfileFieldBase implements SettableProfileField {
+public class SimpleProfileField extends SettableProfileField {
+    private final ProfileManagerImpl manager;
 
     public SimpleProfileField(ProfileManagerImpl manager, String key, String displayName) {
-        super(manager, key, displayName);
+        super(key, displayName);
+        this.manager = manager;
     }
 
     @Override
