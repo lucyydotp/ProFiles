@@ -5,7 +5,7 @@ api-version: 1.16
 authors: [ __lucyy ]
 description: The ultimate profile plugin.
 website: https://lucyy.me
-softdepend: [ ProNouns ]
+softdepend: [ ProNouns, PlaceholderAPI ]
 commands:
   profile:
     description: Show your profile.

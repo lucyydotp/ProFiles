@@ -1,5 +1,6 @@
 package me.lucyy.profiles.command;
 
+import me.lucyy.common.command.Subcommand;
 import me.lucyy.profiles.ConfigHandler;
 import me.lucyy.profiles.ProFiles;
 import me.lucyy.profiles.api.ProfileField;
@@ -59,8 +60,15 @@ public class ClearSubcommand implements Subcommand {
 			return true;
 		}
 
-		((SettableProfileField) field).clearValue(((Player) sender).getUniqueId());
-		sender.sendMessage(cfg.getPrefix() + "Cleared " + field.getDisplayName() + ".");
+		SettableProfileField settable = (SettableProfileField) field;
+		Player player = (Player) sender;
+
+		String result = settable.clearValue(player.getUniqueId());
+		if (result.equals(""))
+			sender.sendMessage(cfg.getPrefix() + "Cleared " + field.getDisplayName() + ".");
+		else sender.sendMessage(result);
+
+
 		return true;
 	}
 

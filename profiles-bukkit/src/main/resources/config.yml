@@ -1,11 +1,12 @@
 # ProFiles Config File v1.0.0-SNAPSHOT
-# DEVELOPMENT VERSION - LIABLE TO CHANGE
+# https://git.lucyy.me/Lucy/ProFiles/wiki/Setting-up-ProFiles
+# Join my Discord https://support.lucyy.me for help
 
 checkForUpdates: true
 
 format:
-  prefix: "&f[&9Profile&f] "
-  accent: "&9"
+  prefix: "&f[&3Profile&f] "
+  accent: "&3"
   main: "&f"
 
 fields:

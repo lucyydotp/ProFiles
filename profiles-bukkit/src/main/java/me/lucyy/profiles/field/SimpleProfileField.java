@@ -19,12 +19,14 @@ public class SimpleProfileField extends SettableProfileField {
 	}
 
 	@Override
-	public void setValue(UUID player, String value) {
+	public String setValue(UUID player, String value) {
 		manager.getStorage().setField(player, getKey(), value);
+		return "";
 	}
 
 	@Override
-	public void clearValue(UUID player) {
+	public String clearValue(UUID player) {
 		manager.getStorage().clearField(player, getKey());
+		return "";
 	}
 }

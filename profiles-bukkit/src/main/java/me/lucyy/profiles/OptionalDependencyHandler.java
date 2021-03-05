@@ -1,6 +1,7 @@
 package me.lucyy.profiles;
 
 import me.lucyy.pronouns.api.PronounHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class OptionalDependencyHandler {

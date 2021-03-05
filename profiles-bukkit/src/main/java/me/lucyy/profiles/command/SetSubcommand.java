@@ -1,5 +1,6 @@
 package me.lucyy.profiles.command;
 
+import me.lucyy.common.command.Subcommand;
 import me.lucyy.profiles.ConfigHandler;
 import me.lucyy.profiles.ProFiles;
 import me.lucyy.profiles.api.ProfileField;
@@ -8,11 +9,7 @@ import me.lucyy.profiles.api.SettableProfileField;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class SetSubcommand implements Subcommand {
 
@@ -67,28 +64,28 @@ public class SetSubcommand implements Subcommand {
 		}
 		value.setLength(value.length() - 1);
 
-		((SettableProfileField) field).setValue(((Player) sender).getUniqueId(), value.toString());
-		sender.sendMessage(cfg.getPrefix() + "Set " + field.getDisplayName() + " to '" + cfg.getAccentColour()
-				+ value.toString() + cfg.getMainColour() + "'.");
+		SettableProfileField settable = (SettableProfileField) field;
+		Player player = (Player) sender;
+
+		String result = settable.setValue(player.getUniqueId(), value.toString());
+		if (result.equals(""))
+			sender.sendMessage(cfg.getPrefix() + "Set " + field.getDisplayName() + " to '" + cfg.getAccentColour()
+					+ value.toString() + cfg.getMainColour() + "'.");
+		else sender.sendMessage(result);
 		return true;
 	}
 
 	@Override
 	public List<String> tabComplete(String[] args) {
 		List<String> output = new ArrayList<>();
-		switch (args.length) {
-			case 2:
-
-				for (ProfileField field : plugin.getProfileManager().getFields()) {
-					if (field instanceof SettableProfileField) output.add(field.getKey());
-				}
-				break;
-			default:
-				ProfileField field = plugin.getProfileManager().getField(args[1]);
-				output.add(field instanceof SettableProfileField ? "<"
-						+ field.getDisplayName().toLowerCase(Locale.ROOT) + ">" : "You can't set this field!");
-				break;
-
+		if (args.length == 2) {
+			for (ProfileField field : plugin.getProfileManager().getFields()) {
+				if (field instanceof SettableProfileField) output.add(field.getKey());
+			}
+		} else {
+			ProfileField field = plugin.getProfileManager().getField(args[1]);
+			output.add(field instanceof SettableProfileField ? "<"
+					+ field.getDisplayName().toLowerCase(Locale.ROOT) + ">" : "You can't set this field!");
 		}
 		return output;
 	}

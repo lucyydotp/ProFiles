@@ -1,16 +1,17 @@
 package me.lucyy.profiles;
 
+import me.lucyy.common.command.FormatProvider;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Objects;
 
-public class ConfigHandler {
+public class ConfigHandler implements FormatProvider {
 	private final ProFiles plugin;
 
 	public ConfigHandler(ProFiles plugin) {
 		this.plugin = plugin;
-		plugin.getConfig().options().copyDefaults(true);
+		plugin.saveDefaultConfig();
 
 		FileConfiguration cfg = plugin.getConfig();
 
@@ -18,6 +19,7 @@ public class ConfigHandler {
 		cfg.addDefault("format.prefix", "&f[&3Profile&f] ");
 		cfg.addDefault("format.accent", "&3");
 		cfg.addDefault("format.main", "&f");
+
 		plugin.saveConfig();
 	}
 

@@ -1,8 +1,13 @@
 package me.lucyy.profiles;
 
+import me.lucyy.common.command.Command;
+import me.lucyy.common.command.HelpSubcommand;
 import me.lucyy.common.update.UpdateChecker;
 import me.lucyy.profiles.api.ProfileManager;
-import me.lucyy.profiles.command.ProfileCommand;
+import me.lucyy.profiles.command.ClearSubcommand;
+import me.lucyy.profiles.command.SetSubcommand;
+import me.lucyy.profiles.command.ShowSubcommand;
+import me.lucyy.profiles.field.factory.PlaceholderFieldFactory;
 import me.lucyy.profiles.field.factory.ProNounsFieldFactory;
 import me.lucyy.profiles.field.factory.SimpleFieldFactory;
 import me.lucyy.profiles.storage.Storage;
@@ -37,14 +42,22 @@ public final class ProFiles extends JavaPlugin {
 
         getServer().getServicesManager().register(ProfileManager.class, profileManager, this, ServicePriority.Normal);
 
-        getCommand("profile").setExecutor(new ProfileCommand(this));
+		Command cmd = new Command(config);
+        cmd.register(new HelpSubcommand(cmd, config, this));
+        cmd.register(new SetSubcommand(this));
+		cmd.register(new ClearSubcommand(this));
+		ShowSubcommand defaultSub = new ShowSubcommand(this);
+        cmd.register(defaultSub);
+        cmd.setDefaultSubcommand(defaultSub);
 
-        saveDefaultConfig();
+        getCommand("profile").setExecutor(cmd);
+		getCommand("profile").setTabCompleter(cmd);
 
 		profileManager.register("simple", new SimpleFieldFactory(profileManager));
         profileManager.register("pronouns", new ProNounsFieldFactory(depHandler));
+		profileManager.register("placeholder", new PlaceholderFieldFactory());
 
-        if (getConfig().getString("checkForUpdates").equals("false")) {
+        if (getConfigHandler().checkForUpdates()) {
         	getLogger().warning("Update checking is disabled. You might be running an old version!");
 		} else {
         	new UpdateChecker(this,
