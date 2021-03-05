@@ -6,20 +6,25 @@ import me.lucyy.profiles.api.SettableProfileField;
 import java.util.UUID;
 
 public class SimpleProfileField extends SettableProfileField {
-    private final ProfileManagerImpl manager;
+	private final ProfileManagerImpl manager;
 
-    public SimpleProfileField(ProfileManagerImpl manager, String key, String displayName) {
-        super(key, displayName);
-        this.manager = manager;
-    }
+	public SimpleProfileField(ProfileManagerImpl manager, String key, String displayName) {
+		super(key, displayName);
+		this.manager = manager;
+	}
 
-    @Override
-    public String getValue(UUID uuid) {
-        return manager.getStorage().getField(uuid, getKey());
-    }
+	@Override
+	public String getValue(UUID player) {
+		return manager.getStorage().getField(player, getKey());
+	}
 
-    @Override
-    public void setValue(UUID player, String value) {
-        manager.getStorage().setField(player, getKey(), value);
-    }
+	@Override
+	public void setValue(UUID player, String value) {
+		manager.getStorage().setField(player, getKey(), value);
+	}
+
+	@Override
+	public void clearValue(UUID player) {
+		manager.getStorage().clearField(player, getKey());
+	}
 }

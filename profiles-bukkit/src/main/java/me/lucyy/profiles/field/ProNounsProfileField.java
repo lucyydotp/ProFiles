@@ -9,16 +9,16 @@ import java.util.UUID;
 
 public class ProNounsProfileField extends ProfileField {
 
-    private final PronounHandler pronounHandler;
+	private final PronounHandler pronounHandler;
 
-    public ProNounsProfileField( String key, String displayName, PronounHandler handler) {
-        super(key, displayName);
-        this.pronounHandler = handler;
-    }
+	public ProNounsProfileField(String key, String displayName, PronounHandler handler) {
+		super(key, displayName);
+		this.pronounHandler = handler;
+	}
 
-    @Override
-    public String getValue(UUID player) {
-        if (pronounHandler == null) return "";
-        return PronounSet.friendlyPrintSet(pronounHandler.getUserPronouns(player));
-    }
+	@Override
+	public String getValue(UUID player) {
+		if (pronounHandler == null) return "ProNouns is not installed!";
+		return PronounSet.friendlyPrintSet(pronounHandler.getUserPronouns(player));
+	}
 }

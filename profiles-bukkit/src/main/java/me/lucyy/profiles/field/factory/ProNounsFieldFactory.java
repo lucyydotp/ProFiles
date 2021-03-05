@@ -15,7 +15,7 @@ public class ProNounsFieldFactory implements FieldFactory {
     }
 
     @Override
-    public ProfileField create(ConfigurationSection cfg) {
-        return new ProNounsProfileField(cfg.getString("key"), cfg.getString("displayName"), handler.getProNouns());
+    public ProfileField create(String key, ConfigurationSection cfg) {
+        return new ProNounsProfileField(key, cfg.getString("displayName"), handler.getProNouns());
     }
 }

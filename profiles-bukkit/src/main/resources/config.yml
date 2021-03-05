@@ -1,8 +1,23 @@
 # ProFiles Config File v1.0.0-SNAPSHOT
 # DEVELOPMENT VERSION - LIABLE TO CHANGE
 
+checkForUpdates: true
+
+format:
+  prefix: "&f[&9Profile&f] "
+  accent: "&9"
+  main: "&f"
+
 fields:
+  name:
+    type: "simple"
+    displayName: "Name"
+  gender:
+    type: "simple"
+    displayName: "Gender"
   pronouns:
-    key: "pronouns"
     type: "pronouns"
     displayName: "Pronouns"
+  discord:
+    type: "simple"
+    displayName: "Discord"

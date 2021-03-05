@@ -10,6 +10,9 @@ commands:
   profile:
     description: Show your profile.
     usage: /profile
-  setfield:
-    description: Set a field in your profile.
-    usage: /setfield <field> <value>
+    aliases: [ profiles ]
+
+permissions:
+  profiles.admin:
+    description: "Access to admin commands"
+    default: op

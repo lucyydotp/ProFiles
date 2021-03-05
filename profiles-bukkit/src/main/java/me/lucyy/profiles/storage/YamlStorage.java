@@ -52,10 +52,16 @@ public class YamlStorage implements Storage {
 
     @Override
     public String getField(UUID uuid, String key) {
-        return getPlayerSection(uuid).getString(key, "");
+        return getPlayerSection(uuid).getString(key, "Unset");
     }
 
-    @Override
+	@Override
+	public void clearField(UUID uuid, String key) {
+		getPlayerSection(uuid).set(key, null);
+		save();
+	}
+
+	@Override
     public void close() {
         save();
     }

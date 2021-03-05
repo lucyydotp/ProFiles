@@ -14,7 +14,7 @@ public class SimpleFieldFactory implements FieldFactory {
     }
 
     @Override
-    public ProfileField create(ConfigurationSection cfg) {
-        return new SimpleProfileField(manager, cfg.getString("key"), cfg.getString("displayName"));
+    public ProfileField create(String key, ConfigurationSection cfg) {
+        return new SimpleProfileField(manager, key, cfg.getString("displayName"));
     }
 }

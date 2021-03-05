@@ -16,6 +16,12 @@ public abstract class SettableProfileField extends ProfileField {
      */
     public abstract void setValue(UUID player, String value);
 
+	/**
+	 * Clears the value of this field.
+	 * @param player the player to clear this field for
+	 */
+	public abstract void clearValue(UUID player);
+
     protected SettableProfileField(String key, String displayName) {
         super(key, displayName);
     }
