@@ -5,7 +5,6 @@
 checkForUpdates: true
 
 format:
-  prefix: "&f[&3Profile&f] "
   accent: "&3"
   main: "&f"
 

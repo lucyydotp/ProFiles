@@ -31,7 +31,7 @@ public class SetSubcommand implements Subcommand {
 
 	@Override
 	public String getUsage() {
-		return "/profile set <field> <value>";
+		return "set <field> <value>";
 	}
 
 	@Override
@@ -49,13 +49,13 @@ public class SetSubcommand implements Subcommand {
 
 		ProfileField field = manager.getField(args[0]);
 		if (field == null) {
-			sender.sendMessage(cfg.getPrefix() + "The field '" + cfg.getAccentColour() + args[0]
-					+ cfg.getMainColour() + "' doesn't exist.");
+			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("The field '") + cfg.formatAccent(args[0])
+					+ cfg.formatMain("' doesn't exist."));
 			return true;
 		}
 
 		if (!(field instanceof SettableProfileField)) {
-			sender.sendMessage(cfg.getPrefix() + "This field can't be set manually.");
+			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("This field can't be set manually."));
 			return true;
 		}
 		StringBuilder value = new StringBuilder();
@@ -69,8 +69,8 @@ public class SetSubcommand implements Subcommand {
 
 		String result = settable.setValue(player.getUniqueId(), value.toString());
 		if (result.equals(""))
-			sender.sendMessage(cfg.getPrefix() + "Set " + field.getDisplayName() + " to '" + cfg.getAccentColour()
-					+ value.toString() + cfg.getMainColour() + "'.");
+			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("Set " + field.getDisplayName() + " to '")
+					+ cfg.formatAccent(value.toString()) + cfg.formatMain( "'."));
 		else sender.sendMessage(result);
 		return true;
 	}

@@ -1,6 +1,7 @@
 package me.lucyy.profiles.command;
 
 import me.lucyy.common.command.Subcommand;
+import me.lucyy.common.format.TextFormatter;
 import me.lucyy.profiles.ConfigHandler;
 import me.lucyy.profiles.ProFiles;
 import me.lucyy.profiles.api.ProfileField;
@@ -27,12 +28,12 @@ public class ShowSubcommand implements Subcommand {
 
 	@Override
 	public String getDescription() {
-		return null;
+		return "Shows your, or another player's, profile.";
 	}
 
 	@Override
 	public String getUsage() {
-		return null;
+		return "set";
 	}
 
 	@Override
@@ -58,20 +59,15 @@ public class ShowSubcommand implements Subcommand {
 			return true;
 		}
 
-		StringBuilder output = new StringBuilder()
-				.append(cfg.getAccentColour())
-				.append(player.getName())
-				.append(cfg.getMainColour())
-				.append("'s profile")
+		StringBuilder output = new StringBuilder().append("\n")
+				.append(TextFormatter.formatTitle(target.getName() + "'s profile", cfg))
 				.append("\n");
 		for (ProfileField field : plugin.getProfileManager().getFields()) {
-			output.append(cfg.getMainColour())
-					.append(field.getDisplayName())
-					.append(": ")
-					.append(cfg.getAccentColour())
-					.append(field.getValue(player.getUniqueId()))
+			output.append(cfg.formatMain(field.getDisplayName() + ": "))
+					.append(cfg.formatAccent(field.getValue(player.getUniqueId())))
 					.append("\n");
 		}
+		output.append(TextFormatter.formatTitle("*", cfg)).append("\n");
 		sender.sendMessage(output.toString());
 		return true;
 	}

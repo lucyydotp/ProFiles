@@ -1,6 +1,7 @@
 package me.lucyy.profiles;
 
 import me.lucyy.common.command.FormatProvider;
+import me.lucyy.common.format.TextFormatter;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -16,7 +17,6 @@ public class ConfigHandler implements FormatProvider {
 		FileConfiguration cfg = plugin.getConfig();
 
 		plugin.getConfig().addDefault("checkForUpdates", "true");
-		cfg.addDefault("format.prefix", "&f[&3Profile&f] ");
 		cfg.addDefault("format.accent", "&3");
 		cfg.addDefault("format.main", "&f");
 
@@ -35,10 +35,24 @@ public class ConfigHandler implements FormatProvider {
 		return value;
 	}
 
+	private String applyFormatter(String formatter, String content, String overrides) {
+		if (formatter.contains("%s")) return TextFormatter.format(String.format(formatter, content), overrides);
+		StringBuilder formatters = new StringBuilder();
+		if (overrides != null) {
+			for (char character : overrides.toCharArray()) formatters.append("&").append(character);
+		}
+		return ChatColor.translateAlternateColorCodes('&', formatter + formatters.toString()) + content;
+	}
+
 	@SuppressWarnings("ConstantConditions")
 	public String getAccentColour() {
 		return ChatColor.translateAlternateColorCodes('&',
 				getString("format.accent", "&3"));
+	}
+
+	@Override
+	public String formatAccent(String s, String formatters) {
+		return applyFormatter(getAccentColour(), s, formatters);
 	}
 
 	@SuppressWarnings("ConstantConditions")
@@ -47,12 +61,16 @@ public class ConfigHandler implements FormatProvider {
 				getString("format.main", "&f"));
 	}
 
+	@Override
+	public String formatMain(String s, String formatters) {
+		return applyFormatter(getMainColour(), s, formatters);
+	}
+
 	public String getPrefix() {
-		return ChatColor.translateAlternateColorCodes('&',
-				plugin.getConfig().getString("format.prefix") + getMainColour());
+		return TextFormatter.format(getString("format.prefix", formatAccent("Profile") + ChatColor.GRAY + " >> "));
 	}
 
 	public boolean checkForUpdates() {
-		return !Objects.equals(plugin.getConfig().getString("checkForUpdates"), "false");
+		return "false".equals(plugin.getConfig().getString("checkForUpdates"));
 	}
 }
