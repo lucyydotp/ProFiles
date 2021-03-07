@@ -2,7 +2,6 @@ package me.lucyy.profiles.command;
 
 import me.lucyy.common.command.Subcommand;
 import me.lucyy.common.format.TextFormatter;
-import me.lucyy.common.uuidcache.UserCache;
 import me.lucyy.profiles.ConfigHandler;
 import me.lucyy.profiles.ProFiles;
 import me.lucyy.profiles.api.ProfileField;
