@@ -6,7 +6,7 @@
 
     <groupId>me.lucyy</groupId>
     <artifactId>profiles</artifactId>
-    <version>1.0.0-beta1</version>
+    <version>1.0.0-beta2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>ProFiles</name>
@@ -101,11 +101,12 @@
             <groupId>me.lucyy</groupId>
             <artifactId>pronouns-api</artifactId>
             <version>1.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.lucyy</groupId>
             <artifactId>LucyCommonLib</artifactId>
-            <version>1.2.1-SNAPSHOT</version>
+            <version>1.3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>

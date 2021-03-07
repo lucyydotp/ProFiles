@@ -2,15 +2,18 @@ package me.lucyy.profiles.command;
 
 import me.lucyy.common.command.Subcommand;
 import me.lucyy.common.format.TextFormatter;
+import me.lucyy.common.uuidcache.UserCache;
 import me.lucyy.profiles.ConfigHandler;
 import me.lucyy.profiles.ProFiles;
 import me.lucyy.profiles.api.ProfileField;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ShowSubcommand implements Subcommand {
 
@@ -44,7 +47,7 @@ public class ShowSubcommand implements Subcommand {
 	@Override
 	public boolean execute(CommandSender sender, CommandSender target, String[] args) {
 		ConfigHandler cfg = plugin.getConfigHandler();
-		Player player;
+		OfflinePlayer player;
 		if (!(sender instanceof Player) && args.length == 0) {
 			sender.sendMessage(cfg.getPrefix() + "Please specify a username.");
 			return true;
@@ -55,7 +58,9 @@ public class ShowSubcommand implements Subcommand {
 		} else player = (Player)sender;
 
 		if (player == null) {
-			sender.sendMessage(cfg.getPrefix() + "Player '" + args[0] + cfg.getMainColour() + "' could not be found.");
+			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("Player '")
+					+ cfg.formatAccent(args[0])
+					+ cfg.formatMain("' could not be found."));
 			return true;
 		}
 

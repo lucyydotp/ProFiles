@@ -2,7 +2,6 @@ package me.lucyy.profiles.field.factory;
 
 import me.lucyy.profiles.ProfileManagerImpl;
 import me.lucyy.profiles.api.FieldFactory;
-import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.field.SimpleProfileField;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -14,7 +13,7 @@ public class SimpleFieldFactory implements FieldFactory {
     }
 
     @Override
-    public ProfileField create(String key, ConfigurationSection cfg) {
+    public SimpleProfileField create(String key, ConfigurationSection cfg) {
         return new SimpleProfileField(manager, key, cfg.getString("displayName"));
     }
 }
