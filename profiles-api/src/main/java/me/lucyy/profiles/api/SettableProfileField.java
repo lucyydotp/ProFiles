@@ -1,7 +1,5 @@
 package me.lucyy.profiles.api;
 
-import org.bukkit.configuration.ConfigurationSection;
-
 import java.util.UUID;
 
 /**
@@ -27,7 +25,7 @@ public abstract class SettableProfileField extends ProfileField {
 	 */
 	public abstract String clearValue(UUID player);
 
-	protected SettableProfileField(String key, String displayName) {
-		super(key, displayName);
+	protected SettableProfileField(String key, String displayName, int order) {
+		super(key, displayName, order);
 	}
 }

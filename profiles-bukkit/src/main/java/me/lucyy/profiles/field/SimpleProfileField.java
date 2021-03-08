@@ -8,8 +8,8 @@ import java.util.UUID;
 public class SimpleProfileField extends SettableProfileField {
 	private final ProfileManagerImpl manager;
 
-	public SimpleProfileField(ProfileManagerImpl manager, String key, String displayName) {
-		super(key, displayName);
+	public SimpleProfileField(ProfileManagerImpl manager, String key, String displayName, int order) {
+		super(key, displayName, order);
 		this.manager = manager;
 	}
 

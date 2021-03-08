@@ -12,8 +12,8 @@ public class ProNounsProfileField extends SettableProfileField {
 
 	private final PronounHandler pronounHandler;
 
-	public ProNounsProfileField(String key, String displayName, PronounHandler handler) {
-		super(key, displayName);
+	public ProNounsProfileField(String key, String displayName, int order, PronounHandler handler) {
+		super(key, displayName, order);
 		this.pronounHandler = handler;
 	}
 

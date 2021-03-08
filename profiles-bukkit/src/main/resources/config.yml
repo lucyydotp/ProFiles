@@ -1,4 +1,4 @@
-# ProFiles Config File v1.0.0-SNAPSHOT
+# ProFiles Config File v${project.version}
 # https://git.lucyy.me/Lucy/ProFiles/wiki/Setting-up-ProFiles
 # Join my Discord https://support.lucyy.me for help
 
@@ -11,13 +11,17 @@ format:
 fields:
   name:
     type: "simple"
+    order: 0
     displayName: "Name"
   gender:
     type: "simple"
+    order: 1
     displayName: "Gender"
   pronouns:
     type: "pronouns"
+    order: 2
     displayName: "Pronouns"
   discord:
     type: "simple"
+    order: 3
     displayName: "Discord"
