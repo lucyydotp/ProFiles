@@ -19,8 +19,10 @@
 package me.lucyy.profiles.command;
 
 import me.lucyy.common.command.Subcommand;
+import me.lucyy.profiles.ConfigHandler;
 import me.lucyy.profiles.ProFiles;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.jetbrains.annotations.NotNull;
 
 public class ReloadSubcommand implements Subcommand {
@@ -53,7 +55,13 @@ public class ReloadSubcommand implements Subcommand {
 
     @Override
     public boolean execute(@NotNull final CommandSender sender, @NotNull final CommandSender target, @NotNull final String[] args) {
+        ConfigHandler handler = pl.getConfigHandler();
         pl.reloadConfig();
+        try {
+            pl.getProfileManager().loadFields();
+        } catch (InvalidConfigurationException e) {
+            sender.sendMessage(handler.getPrefix() + handler.formatMain("Failed to reload ProFiles!\n" + e.getMessage()));
+        }
         sender.sendMessage(pl.getConfigHandler().getPrefix() + pl.getConfigHandler().formatMain("Reloaded"));
         return true;
     }
