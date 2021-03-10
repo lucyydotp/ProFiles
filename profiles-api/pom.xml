@@ -15,6 +15,14 @@
         </repository>
     </repositories>
 
+    <distributionManagement>
+        <repository>
+            <id>lucy-releases</id>
+            <name>Lucy's Maven Repo</name>
+            <url>https://repo.lucyy.me/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
