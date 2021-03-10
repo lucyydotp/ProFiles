@@ -65,7 +65,7 @@ public final class ProFiles extends JavaPlugin {
         	getLogger().warning("Update checking is disabled. You might be running an old version!");
 		} else {
         	new UpdateChecker(this,
-					"", //"https://api.spigotmc.org/legacy/update.php?resource=86199" TODO set url
+					"https://api.spigotmc.org/legacy/update.php?resource=89959",
 					getConfigHandler().getPrefix() +
 							"A new version of ProFiles is available!\nFind it at "
 							+ getConfigHandler().getAccentColour() + "https://lucyy.me/profiles",
