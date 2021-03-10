@@ -5,8 +5,6 @@ import me.lucyy.common.format.TextFormatter;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.Objects;
-
 public class ConfigHandler implements FormatProvider {
 	private final ProFiles plugin;
 

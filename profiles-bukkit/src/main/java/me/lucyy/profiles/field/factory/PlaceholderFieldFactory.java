@@ -1,7 +1,6 @@
 package me.lucyy.profiles.field.factory;
 
 import me.lucyy.profiles.api.FieldFactory;
-import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.field.PlaceholderProfileField;
 import org.bukkit.configuration.ConfigurationSection;
 

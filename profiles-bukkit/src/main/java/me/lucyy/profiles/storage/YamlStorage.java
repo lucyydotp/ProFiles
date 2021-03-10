@@ -6,14 +6,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.UUID;
 
 public class YamlStorage implements Storage {
 
-    private final ProFiles pl;
     private File configFile;
     private FileConfiguration config;
 
@@ -32,11 +29,10 @@ public class YamlStorage implements Storage {
     }
 
     public YamlStorage(ProFiles plugin) {
-        this.pl = plugin;
 
         try {
-            if (!pl.getDataFolder().exists()) pl.getDataFolder().mkdirs();
-            configFile = new File(pl.getDataFolder(), "storage.yml");
+            if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdirs();
+            configFile = new File(plugin.getDataFolder(), "storage.yml");
             configFile.createNewFile();
             config = YamlConfiguration.loadConfiguration(configFile);
         } catch (IOException e) {

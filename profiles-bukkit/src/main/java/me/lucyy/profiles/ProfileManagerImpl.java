@@ -35,7 +35,7 @@ public class ProfileManagerImpl implements ProfileManager {
 			if (fieldMap.containsKey(key)) throw new InvalidConfigurationException("Key '" + key + "' is a duplicate");
 			ConfigurationSection section = fieldsSection.getConfigurationSection(key);
 
-			String type = section.getString("type");
+			@SuppressWarnings("ConstantConditions") String type = section.getString("type");
 			FieldFactory factory = factoryMap.get(type);
 
 			if (factory == null) throw new InvalidConfigurationException("Field type '" + type + "' is unknown");

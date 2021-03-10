@@ -16,7 +16,7 @@ import java.util.List;
 public class ClearOtherSubcommand implements Subcommand {
 
     private final ProFiles plugin;
-
+    
     public ClearOtherSubcommand(ProFiles plugin) {
         this.plugin = plugin;
     }

@@ -5,7 +5,7 @@
 checkForUpdates: true
 
 format:
-  accent: "&3"
+  accent: "{#fa9efa>}%s{#9dacfa<}"
   main: "&f"
 
 fields:

@@ -1,8 +1,6 @@
 package me.lucyy.profiles.api;
 
 import java.util.Collection;
-import java.util.Set;
-import java.util.UUID;
 
 /**
  * Manages fields assigned to users.

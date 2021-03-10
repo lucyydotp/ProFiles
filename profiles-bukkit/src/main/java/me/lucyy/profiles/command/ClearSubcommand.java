@@ -3,7 +3,6 @@ package me.lucyy.profiles.command;
 import me.lucyy.common.command.Subcommand;
 import me.lucyy.profiles.ConfigHandler;
 import me.lucyy.profiles.ProFiles;
-import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.api.ProfileManager;
 import me.lucyy.profiles.api.SettableProfileField;
 import org.bukkit.command.CommandSender;
@@ -11,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ClearSubcommand implements Subcommand {
 

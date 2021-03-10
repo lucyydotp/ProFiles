@@ -1,7 +1,6 @@
 package me.lucyy.profiles.api;
 
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 /*
  * A factory to create fields from configuration sections.
