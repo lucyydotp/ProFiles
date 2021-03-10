@@ -6,7 +6,7 @@
 
     <groupId>me.lucyy</groupId>
     <artifactId>profiles</artifactId>
-    <version>1.0.0-beta4</version>
+    <version>1.0.0-beta5</version>
     <packaging>jar</packaging>
 
     <name>ProFiles</name>
@@ -106,7 +106,7 @@
         <dependency>
             <groupId>me.lucyy</groupId>
             <artifactId>LucyCommonLib</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.5</version>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>

@@ -41,21 +41,21 @@ public class SetSubcommand implements Subcommand {
 
 	@Override
 	public boolean execute(CommandSender sender, CommandSender target, String[] args) {
-
-		ProfileManager manager = plugin.getProfileManager();
 		ConfigHandler cfg = plugin.getConfigHandler();
-
-		if (args.length < 2) return false;
-
-		ProfileField field = manager.getField(args[0]);
-		if (field == null) {
-			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("The field '") + cfg.formatAccent(args[0])
-					+ cfg.formatMain("' doesn't exist."));
+		if (!(target instanceof Player)) {
+			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("This command can only be run by a player."));
 			return true;
 		}
 
-		if (!(field instanceof SettableProfileField)) {
-			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("This field can't be set manually."));
+		ProfileManager manager = plugin.getProfileManager();
+
+		if (args.length < 2) return false;
+
+		SettableProfileField field;
+		try {
+			field = CommandUtils.getSettableField(manager, args[0]);
+		} catch (AssertionError e) {
+			sender.sendMessage(cfg.getPrefix() + cfg.formatMain(e.getMessage()));
 			return true;
 		}
 		StringBuilder value = new StringBuilder();
@@ -64,10 +64,9 @@ public class SetSubcommand implements Subcommand {
 		}
 		value.setLength(value.length() - 1);
 
-		SettableProfileField settable = (SettableProfileField) field;
 		Player player = (Player) sender;
 
-		String result = settable.setValue(player.getUniqueId(), value.toString());
+		String result = field.setValue(player.getUniqueId(), value.toString());
 		if (result.equals(""))
 			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("Set " + field.getDisplayName() + " to '")
 					+ cfg.formatAccent(value.toString()) + cfg.formatMain( "'."));
@@ -79,9 +78,7 @@ public class SetSubcommand implements Subcommand {
 	public List<String> tabComplete(String[] args) {
 		List<String> output = new ArrayList<>();
 		if (args.length == 2) {
-			for (ProfileField field : plugin.getProfileManager().getFields()) {
-				if (field instanceof SettableProfileField) output.add(field.getKey());
-			}
+			return CommandUtils.tabCompleteSettable(plugin.getProfileManager().getFields(), args[1]);
 		} else {
 			ProfileField field = plugin.getProfileManager().getField(args[1]);
 			output.add(field instanceof SettableProfileField ? "<"

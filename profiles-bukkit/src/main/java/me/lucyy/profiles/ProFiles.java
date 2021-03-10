@@ -5,10 +5,7 @@ import me.lucyy.common.command.HelpSubcommand;
 import me.lucyy.common.command.VersionSubcommand;
 import me.lucyy.common.update.UpdateChecker;
 import me.lucyy.profiles.api.ProfileManager;
-import me.lucyy.profiles.command.ClearSubcommand;
-import me.lucyy.profiles.command.ReloadSubcommand;
-import me.lucyy.profiles.command.SetSubcommand;
-import me.lucyy.profiles.command.ShowSubcommand;
+import me.lucyy.profiles.command.*;
 import me.lucyy.profiles.field.factory.PlaceholderFieldFactory;
 import me.lucyy.profiles.field.factory.ProNounsFieldFactory;
 import me.lucyy.profiles.field.factory.SimpleFieldFactory;
@@ -50,6 +47,9 @@ public final class ProFiles extends JavaPlugin {
         cmd.register(new VersionSubcommand(config, this));
         cmd.register(new SetSubcommand(this));
 		cmd.register(new ClearSubcommand(this));
+		cmd.register(new SetOtherSubcommand(this));
+		cmd.register(new ClearOtherSubcommand(this));
+
 		ShowSubcommand defaultSub = new ShowSubcommand(this);
         cmd.register(defaultSub);
         cmd.setDefaultSubcommand(defaultSub);

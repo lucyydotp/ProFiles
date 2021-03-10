@@ -16,3 +16,6 @@ permissions:
   profiles.admin:
     description: "Access to admin commands"
     default: op
+  profiles.moderator:
+    description: "Access to moderation commands (setother, etc)"
+    default: op

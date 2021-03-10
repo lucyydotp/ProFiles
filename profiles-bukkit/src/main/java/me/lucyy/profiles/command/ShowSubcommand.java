@@ -1,5 +1,6 @@
 package me.lucyy.profiles.command;
 
+import me.lucyy.common.command.CommandHelper;
 import me.lucyy.common.command.Subcommand;
 import me.lucyy.common.format.TextFormatter;
 import me.lucyy.profiles.ConfigHandler;
@@ -33,7 +34,7 @@ public class ShowSubcommand implements Subcommand {
 	}
 
 	@Override
-	public String getUsage() {
+	public String  getUsage() {
 		return "set";
 	}
 
@@ -79,8 +80,6 @@ public class ShowSubcommand implements Subcommand {
 	@Override
 	public List<String> tabComplete(String[] args) {
 		if (args.length != 2) return new ArrayList<>();
-		List<String> output = new ArrayList<>();
-		for (Player player : Bukkit.getOnlinePlayers()) output.add(player.getName());
-		return output;
+		return CommandHelper.tabCompleteNames(args[1]);
 	}
 }
