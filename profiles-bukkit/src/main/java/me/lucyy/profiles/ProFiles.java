@@ -66,9 +66,7 @@ public final class ProFiles extends JavaPlugin {
 		} else {
         	new UpdateChecker(this,
 					"https://api.spigotmc.org/legacy/update.php?resource=89959",
-					getConfigHandler().getPrefix() +
-							"A new version of ProFiles is available!\nFind it at "
-							+ getConfigHandler().getAccentColour() + "https://lucyy.me/profiles",
+							"A new version of ProFiles is available!\nFind it at https://lucyy.me/profiles",
 					"profiles.admin"
 			);
 		}
