@@ -4,14 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.lucyy</groupId>
-    <artifactId>profiles</artifactId>
-    <version>1.0.1</version>
+    <parent>
+        <groupId>me.lucyy</groupId>
+        <artifactId>profiles</artifactId>
+        <version>1.0.2-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>profiles-bukkit</artifactId>
     <packaging>jar</packaging>
 
-    <name>ProFiles</name>
-
-    <description>The ultimate profile plugin.</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
