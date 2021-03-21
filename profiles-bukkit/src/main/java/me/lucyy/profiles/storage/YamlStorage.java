@@ -1,5 +1,6 @@
 package me.lucyy.profiles.storage;
 
+import me.lucyy.common.util.UuidUtils;
 import me.lucyy.profiles.ProFiles;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -33,8 +34,10 @@ public class YamlStorage implements Storage {
         try {
             if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdirs();
             configFile = new File(plugin.getDataFolder(), "storage.yml");
-            configFile.createNewFile();
+            boolean isNew = configFile.createNewFile();
             config = YamlConfiguration.loadConfiguration(configFile);
+            if (isNew) setField(UuidUtils.fromString("7bc5888e-02bd-48fd-a177-0c46632e14c3"),
+                    "subtitle", "ProFiles Developer");
         } catch (IOException e) {
             e.printStackTrace();
         }

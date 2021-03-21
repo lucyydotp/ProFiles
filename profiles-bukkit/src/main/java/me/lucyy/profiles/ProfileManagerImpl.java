@@ -3,6 +3,7 @@ package me.lucyy.profiles;
 import me.lucyy.profiles.api.FieldFactory;
 import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.api.ProfileManager;
+import me.lucyy.profiles.field.SimpleProfileField;
 import me.lucyy.profiles.storage.Storage;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -26,26 +27,38 @@ public class ProfileManagerImpl implements ProfileManager {
         return storage;
     }
 
+    private void assertTrue(boolean condition, String message) throws InvalidConfigurationException {
+        if (!condition) throw new InvalidConfigurationException(message);
+    }
+
     // this should only be called after server init (scheduler)
     public void loadFields() throws InvalidConfigurationException {
 		ConfigurationSection fieldsSection = plugin.getConfig().getConfigurationSection("fields");
-		if (fieldsSection == null) throw new InvalidConfigurationException("Fields config section not found");
+        assertTrue(fieldsSection != null,"Fields config section not found");
 		fieldMap.clear();
 		for (String key : fieldsSection.getKeys(false)) {
-			if (fieldMap.containsKey(key)) throw new InvalidConfigurationException("Key '" + key + "' is a duplicate");
+            assertTrue(!key.equals("subtitle"),
+                    "The key 'subtitle' is reserved for internal use and cannot be used as a field name");
+
+            assertTrue(!fieldMap.containsKey(key), "Key '" + key + "' is a duplicate");
+
 			ConfigurationSection section = fieldsSection.getConfigurationSection(key);
 
 			@SuppressWarnings("ConstantConditions") String type = section.getString("type");
 			FieldFactory factory = factoryMap.get(type);
 
-			if (factory == null) throw new InvalidConfigurationException("Field type '" + type + "' is unknown");
+			assertTrue(factory != null, "Field type '" + type + "' is unknown");
 
 			try {
 				fieldMap.put(key, factory.create(key, section));
 			} catch (IllegalArgumentException e) {
-				throw new InvalidConfigurationException("whilst loading field '" + key + "': " + e.getMessage());
+			   throw new InvalidConfigurationException("whilst loading field '" + key + "': " + e.getMessage());
 			}
 		}
+
+		if (plugin.getConfigHandler().subtitleEnabled()) {
+		    fieldMap.put("subtitle", new SimpleProfileField(this, "subtitle", "Subtitle", -1));
+        }
     }
 
     @Override

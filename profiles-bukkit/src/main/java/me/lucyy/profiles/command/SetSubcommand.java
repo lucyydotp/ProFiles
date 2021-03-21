@@ -1,7 +1,7 @@
 package me.lucyy.profiles.command;
 
 import me.lucyy.common.command.Subcommand;
-import me.lucyy.profiles.ConfigHandler;
+import me.lucyy.profiles.config.ConfigHandler;
 import me.lucyy.profiles.ProFiles;
 import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.api.ProfileManager;

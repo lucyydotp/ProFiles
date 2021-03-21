@@ -19,7 +19,7 @@
 package me.lucyy.profiles.command;
 
 import me.lucyy.common.command.Subcommand;
-import me.lucyy.profiles.ConfigHandler;
+import me.lucyy.profiles.config.ConfigHandler;
 import me.lucyy.profiles.ProFiles;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
