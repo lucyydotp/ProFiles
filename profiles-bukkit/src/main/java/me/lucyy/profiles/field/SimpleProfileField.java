@@ -7,10 +7,12 @@ import java.util.UUID;
 
 public class SimpleProfileField extends SettableProfileField {
 	private final ProfileManagerImpl manager;
+	private final boolean allowColour;
 
-	public SimpleProfileField(ProfileManagerImpl manager, String key, String displayName, int order) {
+	public SimpleProfileField(ProfileManagerImpl manager, String key, String displayName, int order, boolean allowColour) {
 		super(key, displayName, order);
 		this.manager = manager;
+		this.allowColour = allowColour;
 	}
 
 	@Override
@@ -28,5 +30,9 @@ public class SimpleProfileField extends SettableProfileField {
 	public String clearValue(UUID player) {
 		manager.getStorage().clearField(player, getKey());
 		return "";
+	}
+
+	public boolean allowsColour() {
+		return allowColour;
 	}
 }

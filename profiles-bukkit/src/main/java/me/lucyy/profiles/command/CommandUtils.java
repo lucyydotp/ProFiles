@@ -11,19 +11,13 @@ import java.util.function.Predicate;
 
 public class CommandUtils {
 
-    private static final Predicate<ProfileField> isSettable = field -> field instanceof SettableProfileField;
-
-    public static List<String> tabCompleteField(Collection<ProfileField> fields, String input, Predicate<ProfileField> check) {
-        List<String> out = new ArrayList<>();
-        for (ProfileField field : fields) {
-            if (field.getKey().toLowerCase().startsWith(input.toLowerCase()) && check.test(field))
-                out.add(field.getKey());
-        }
-        return out;
-    }
-
     public static List<String> tabCompleteSettable(Collection<ProfileField> fields, String input) {
-        return tabCompleteField(fields, input, isSettable);
+		List<String> out = new ArrayList<>();
+		for (ProfileField field : fields) {
+			if (field instanceof SettableProfileField && field.getKey().toLowerCase().startsWith(input.toLowerCase()))
+				out.add(field.getKey());
+		}
+		return out;
     }
 
     public static SettableProfileField getSettableField(ProfileManager manager, String name) throws AssertionError {

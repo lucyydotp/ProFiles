@@ -57,7 +57,7 @@ public class ProfileManagerImpl implements ProfileManager {
 		}
 
 		if (plugin.getConfigHandler().subtitleEnabled()) {
-		    fieldMap.put("subtitle", new SimpleProfileField(this, "subtitle", "Subtitle", -1));
+		    fieldMap.put("subtitle", new SimpleProfileField(this, "subtitle", "Subtitle", -1, false));
         }
     }
 

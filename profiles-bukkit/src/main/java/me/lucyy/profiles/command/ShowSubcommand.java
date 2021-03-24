@@ -3,10 +3,12 @@ package me.lucyy.profiles.command;
 import me.lucyy.common.command.CommandHelper;
 import me.lucyy.common.command.Subcommand;
 import me.lucyy.common.format.TextFormatter;
+import me.lucyy.profiles.api.SettableProfileField;
 import me.lucyy.profiles.config.ConfigHandler;
 import me.lucyy.profiles.FormatInverter;
 import me.lucyy.profiles.ProFiles;
 import me.lucyy.profiles.api.ProfileField;
+import me.lucyy.profiles.field.SimpleProfileField;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -78,10 +80,15 @@ public class ShowSubcommand implements Subcommand {
 
         plugin.getProfileManager().getFields().stream()
                 .sorted(Comparator.comparingInt(ProfileField::getOrder)).forEach(field -> {
-            if (!field.getKey().equals("subtitle"))
+            if (!field.getKey().equals("subtitle")) {
+            	String value = field.getValue(target.getUniqueId());
+            	if (field instanceof SimpleProfileField && ((SimpleProfileField) field).allowsColour())
+            		value = TextFormatter.format(value);
+            	else value = cfg.formatAccent(value);
                 output.append(cfg.formatMain(field.getDisplayName() + ": "))
-                        .append(cfg.formatAccent(field.getValue(target.getUniqueId())))
+                        .append(value)
                         .append("\n");
+			}
         });
         output.append(TextFormatter.formatTitle("*", cfg)).append("\n");
         sender.sendMessage(output.toString());
