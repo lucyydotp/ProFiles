@@ -6,9 +6,12 @@ import me.lucyy.common.command.VersionSubcommand;
 import me.lucyy.common.update.UpdateChecker;
 import me.lucyy.profiles.api.ProfileManager;
 import me.lucyy.profiles.command.*;
+import me.lucyy.profiles.config.ConfigHandler;
 import me.lucyy.profiles.field.factory.PlaceholderFieldFactory;
 import me.lucyy.profiles.field.factory.ProNounsFieldFactory;
 import me.lucyy.profiles.field.factory.SimpleFieldFactory;
+import me.lucyy.profiles.storage.MySqlFileStorage;
+import me.lucyy.profiles.storage.MysqlConnectionException;
 import me.lucyy.profiles.storage.Storage;
 import me.lucyy.profiles.storage.YamlStorage;
 import org.bstats.bukkit.Metrics;
@@ -36,7 +39,20 @@ public final class ProFiles extends JavaPlugin {
 
 		config = new ConfigHandler(this);
 
-		storage = new YamlStorage(this);
+		switch (config.getStorage()) {
+			case "MYSQL":
+				try {
+					storage = new MySqlFileStorage(this);
+					getServer().getPluginManager().registerEvents((MySqlFileStorage) storage, this);
+				} catch (MysqlConnectionException ignored) {
+					getPluginLoader().disablePlugin(this);
+					return;
+				}
+				break;
+			case "YML":
+			default:
+				storage = new YamlStorage(this);
+		}
         profileManager = new ProfileManagerImpl(this, storage);
 
         getServer().getServicesManager().register(ProfileManager.class, profileManager, this, ServicePriority.Normal);
@@ -61,17 +77,17 @@ public final class ProFiles extends JavaPlugin {
         profileManager.register("pronouns", new ProNounsFieldFactory(depHandler));
 		profileManager.register("placeholder", new PlaceholderFieldFactory());
 
-        if (getConfigHandler().checkForUpdates()) {
-        	getLogger().warning("Update checking is disabled. You might be running an old version!");
-		} else {
+		if (getConfigHandler().checkForUpdates()) {
         	new UpdateChecker(this,
 					"https://api.spigotmc.org/legacy/update.php?resource=89959",
 							"A new version of ProFiles is available!\nFind it at https://lucyy.me/profiles",
 					"profiles.admin"
 			);
+		} else {
+			getLogger().warning("Update checking is disabled. You might be running an old version!");
 		}
 
-        new BukkitRunnable() {
+		new BukkitRunnable() {
         	@Override
 			public void run() {
         		try {
@@ -85,7 +101,7 @@ public final class ProFiles extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        storage.close();
+		if (storage != null) storage.close();
     }
 
 	public ConfigHandler getConfigHandler() {

@@ -8,6 +8,18 @@ format:
   accent: "{#fa9efa>}%s{#9dacfa<}"
   main: "&f"
 
+subtitle:
+  enabled: true
+
+storage: yml
+
+mysql:
+  host: '127.0.0.1'
+  port: 3306
+  database: 'profiles'
+  username: 'profiles'
+  password: 'password'
+
 fields:
   name:
     type: "simple"

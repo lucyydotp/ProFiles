@@ -3,9 +3,12 @@ package me.lucyy.profiles.command;
 import me.lucyy.common.command.CommandHelper;
 import me.lucyy.common.command.Subcommand;
 import me.lucyy.common.format.TextFormatter;
-import me.lucyy.profiles.ConfigHandler;
+import me.lucyy.profiles.api.SettableProfileField;
+import me.lucyy.profiles.config.ConfigHandler;
+import me.lucyy.profiles.FormatInverter;
 import me.lucyy.profiles.ProFiles;
 import me.lucyy.profiles.api.ProfileField;
+import me.lucyy.profiles.field.SimpleProfileField;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -17,69 +20,84 @@ import java.util.List;
 
 public class ShowSubcommand implements Subcommand {
 
-	private final ProFiles plugin;
+    private final ProFiles plugin;
 
-	public ShowSubcommand(ProFiles plugin) {
-		this.plugin = plugin;
-	}
+    public ShowSubcommand(ProFiles plugin) {
+        this.plugin = plugin;
+    }
 
-	@Override
-	public String getName() {
-		return "show";
-	}
+    @Override
+    public String getName() {
+        return "show";
+    }
 
-	@Override
-	public String getDescription() {
-		return "Shows your, or another player's, profile.";
-	}
+    @Override
+    public String getDescription() {
+        return "Shows your, or another player's, profile.";
+    }
 
-	@Override
-	public String  getUsage() {
-		return "set";
-	}
+    @Override
+    public String getUsage() {
+        return "set";
+    }
 
-	@Override
-	public String getPermission() {
-		return null;
-	}
+    @Override
+    public String getPermission() {
+        return null;
+    }
 
-	@Override
-	public boolean execute(CommandSender sender, CommandSender ignored, String[] args) {
-		ConfigHandler cfg = plugin.getConfigHandler();
-		OfflinePlayer target;
-		if (!(sender instanceof Player) && args.length == 0) {
-			sender.sendMessage(cfg.getPrefix() + "Please specify a username.");
-			return true;
-		}
+    @Override
+    public boolean execute(CommandSender sender, CommandSender ignored, String[] args) {
+        ConfigHandler cfg = plugin.getConfigHandler();
+        OfflinePlayer target;
+        if (!(sender instanceof Player) && args.length == 0) {
+            sender.sendMessage(cfg.getPrefix() + "Please specify a username.");
+            return true;
+        }
 
-		if (args.length > 0) {
-			target = Bukkit.getPlayer(args[0]);
-		} else target = (Player)sender;
+        if (args.length > 0) {
+            target = Bukkit.getPlayer(args[0]);
+        } else target = (Player) sender;
 
-		if (target == null) {
-			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("Player '")
-					+ cfg.formatAccent(args[0])
-					+ cfg.formatMain("' could not be found."));
-			return true;
-		}
+        if (target == null) {
+            sender.sendMessage(cfg.getPrefix() + cfg.formatMain("Player '")
+                    + cfg.formatAccent(args[0])
+                    + cfg.formatMain("' could not be found."));
+            return true;
+        }
 
-		StringBuilder output = new StringBuilder().append("\n")
-				.append(TextFormatter.formatTitle(target.getName() + "'s profile", cfg))
-				.append("\n");
+        StringBuilder output = new StringBuilder().append("\n")
+                .append(TextFormatter.formatTitle(target.getName() + "'s profile", cfg))
+                .append("\n");
 
-		plugin.getProfileManager().getFields().stream()
-				.sorted(Comparator.comparingInt(ProfileField::getOrder)).forEach(field ->
-					output.append(cfg.formatMain(field.getDisplayName() + ": "))
-						.append(cfg.formatAccent(field.getValue(target.getUniqueId())))
-						.append("\n"));
-		output.append(TextFormatter.formatTitle("*", cfg)).append("\n");
-		sender.sendMessage(output.toString());
-		return true;
-	}
+        if (plugin.getConfigHandler().subtitleEnabled()) {
+            String subtitle = plugin.getProfileManager().getField("subtitle").getValue(target.getUniqueId());
+            if (!subtitle.equals("Unset")) {
+                output.append(TextFormatter.centreText(subtitle, new FormatInverter(plugin.getConfigHandler()), " "))
+                        .append("\n");
+            }
+        }
 
-	@Override
-	public List<String> tabComplete(String[] args) {
-		if (args.length != 2) return new ArrayList<>();
-		return CommandHelper.tabCompleteNames(args[1]);
-	}
+        plugin.getProfileManager().getFields().stream()
+                .sorted(Comparator.comparingInt(ProfileField::getOrder)).forEach(field -> {
+            if (!field.getKey().equals("subtitle")) {
+            	String value = field.getValue(target.getUniqueId());
+            	if (field instanceof SimpleProfileField && ((SimpleProfileField) field).allowsColour())
+            		value = TextFormatter.format(value);
+            	else value = cfg.formatAccent(value);
+                output.append(cfg.formatMain(field.getDisplayName() + ": "))
+                        .append(value)
+                        .append("\n");
+			}
+        });
+        output.append(TextFormatter.formatTitle("*", cfg)).append("\n");
+        sender.sendMessage(output.toString());
+        return true;
+    }
+
+    @Override
+    public List<String> tabComplete(String[] args) {
+        if (args.length != 2) return new ArrayList<>();
+        return CommandHelper.tabCompleteNames(args[1]);
+    }
 }

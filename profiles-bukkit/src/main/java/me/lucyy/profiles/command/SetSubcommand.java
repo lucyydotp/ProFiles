@@ -1,11 +1,13 @@
 package me.lucyy.profiles.command;
 
 import me.lucyy.common.command.Subcommand;
-import me.lucyy.profiles.ConfigHandler;
+import me.lucyy.common.format.TextFormatter;
+import me.lucyy.profiles.config.ConfigHandler;
 import me.lucyy.profiles.ProFiles;
 import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.api.ProfileManager;
 import me.lucyy.profiles.api.SettableProfileField;
+import me.lucyy.profiles.field.SimpleProfileField;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -67,9 +69,14 @@ public class SetSubcommand implements Subcommand {
 		Player player = (Player) sender;
 
 		String result = field.setValue(player.getUniqueId(), value.toString());
-		if (result.equals(""))
+		if (result.equals("")) {
+			String output = value.toString();
+			if (field instanceof SimpleProfileField && ((SimpleProfileField) field).allowsColour())
+				output = TextFormatter.format(output);
+			else output = cfg.formatAccent(output);
 			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("Set " + field.getDisplayName() + " to '")
-					+ cfg.formatAccent(value.toString()) + cfg.formatMain( "'."));
+					+ output + cfg.formatMain("'."));
+		}
 		else sender.sendMessage(result);
 		return true;
 	}
@@ -81,8 +88,12 @@ public class SetSubcommand implements Subcommand {
 			return CommandUtils.tabCompleteSettable(plugin.getProfileManager().getFields(), args[1]);
 		} else {
 			ProfileField field = plugin.getProfileManager().getField(args[1]);
-			output.add(field instanceof SettableProfileField ? "<"
-					+ field.getDisplayName().toLowerCase(Locale.ROOT) + ">" : "You can't set this field!");
+
+			String out = field instanceof SettableProfileField ? "<"
+					+ field.getDisplayName().toLowerCase(Locale.ROOT) + ">" : "You can't set this field!";
+			if (field instanceof SimpleProfileField && ((SimpleProfileField) field).allowsColour())
+				out = "<this field supports colour>";
+			output.add(out);
 		}
 		return output;
 	}
