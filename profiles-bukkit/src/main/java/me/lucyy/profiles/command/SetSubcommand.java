@@ -1,6 +1,7 @@
 package me.lucyy.profiles.command;
 
 import me.lucyy.common.command.Subcommand;
+import me.lucyy.common.format.TextFormatter;
 import me.lucyy.profiles.config.ConfigHandler;
 import me.lucyy.profiles.ProFiles;
 import me.lucyy.profiles.api.ProfileField;
@@ -68,10 +69,15 @@ public class SetSubcommand implements Subcommand {
 		Player player = (Player) sender;
 
 		String result = field.setValue(player.getUniqueId(), value.toString());
-		if (result.equals(""))
+		if (result.equals("")) {
+			String output = value.toString();
+			if (field instanceof SimpleProfileField && ((SimpleProfileField) field).allowsColour())
+				output = TextFormatter.format(output);
+			else output = cfg.formatAccent(output);
 			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("Set " + field.getDisplayName() + " to '")
-					+ cfg.formatAccent(value.toString()) + cfg.formatMain( "'."));
-		else sender.sendMessage(result); // TODO format this properly for colour fields
+					+ output + cfg.formatMain("'."));
+		}
+		else sender.sendMessage(result);
 		return true;
 	}
 
