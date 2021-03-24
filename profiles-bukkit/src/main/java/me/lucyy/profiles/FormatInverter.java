@@ -12,10 +12,6 @@ public class FormatInverter implements FormatProvider {
     public FormatInverter(FormatProvider base) {
         this.base = base;
     }
-    @Override
-    public String getMainColour() {
-        return base.getAccentColour();
-    }
 
     @Override
     public String formatMain(String input) {
@@ -27,10 +23,6 @@ public class FormatInverter implements FormatProvider {
         return base.formatAccent(s, s1);
     }
 
-    @Override
-    public String getAccentColour() {
-        return base.getMainColour();
-    }
 
     @Override
     public String formatAccent(String input) {

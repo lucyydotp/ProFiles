@@ -35,8 +35,6 @@ public class ConfigHandler implements FormatProvider {
 
 		FileConfiguration cfg = plugin.getConfig();
 
-		cfg.options().copyDefaults(true);
-
 		cfg.addDefault("checkForUpdates", "true");
 		cfg.addDefault("format.accent", "&3");
 		cfg.addDefault("format.main", "&f");
@@ -70,12 +68,9 @@ public class ConfigHandler implements FormatProvider {
 	}
 
 	private String applyFormatter(String formatter, String content, String overrides) {
-		if (formatter.contains("%s")) return TextFormatter.format(String.format(formatter, content), overrides);
-		StringBuilder formatters = new StringBuilder();
-		if (overrides != null) {
-			for (char character : overrides.toCharArray()) formatters.append("&").append(character);
-		}
-		return TextFormatter.format(formatter + formatters.toString() + content);
+		if (formatter.contains("%s")) return TextFormatter.format(String.format(formatter, content), overrides, true);
+
+		return TextFormatter.format(formatter + content, overrides, true);
 	}
 
 	@SuppressWarnings("ConstantConditions")
@@ -100,8 +95,11 @@ public class ConfigHandler implements FormatProvider {
 		return applyFormatter(getMainColour(), s, formatters);
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	public String getPrefix() {
-		return TextFormatter.format(getString("format.prefix", formatAccent("Profile") + ChatColor.GRAY + " >> "));
+		String prefix = getString("format.prefix", "");
+		if (prefix.equals("")) return formatAccent("Profile") + ChatColor.GRAY + " >> ";
+		return TextFormatter.format(getString("format.prefix"));
 	}
 
 	public boolean subtitleEnabled() {
