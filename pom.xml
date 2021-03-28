@@ -13,6 +13,20 @@
     <url>https://lucyy.me</url>
     <packaging>pom</packaging>
 
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>lucy</id>
+            <url>https://repo.lucyy.me/repository/public/</url>
+        </repository>
+    </repositories>
+
     <build>
         <plugins>
             <plugin>
@@ -31,5 +45,6 @@
     <modules>
         <module>profiles-api</module>
         <module>profiles-bukkit</module>
+        <module>profiles-papi</module>
     </modules>
 </project>
