@@ -8,6 +8,7 @@ import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.api.ProfileManager;
 import me.lucyy.profiles.api.SettableProfileField;
 import me.lucyy.profiles.field.SimpleProfileField;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -68,14 +69,14 @@ public class SetSubcommand implements Subcommand {
 
 		Player player = (Player) sender;
 
-		String result = field.setValue(player.getUniqueId(), value.toString());
+		String output = value.toString();
+		if (field instanceof SimpleProfileField && !((SimpleProfileField) field).allowsColour()) {
+			output = ChatColor.stripColor(TextFormatter.format(output));
+		}
+		String result = field.setValue(player.getUniqueId(), output);
 		if (result.equals("")) {
-			String output = value.toString();
-			if (field instanceof SimpleProfileField && ((SimpleProfileField) field).allowsColour())
-				output = TextFormatter.format(output);
-			else output = cfg.formatAccent(output);
 			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("Set " + field.getDisplayName() + " to '")
-					+ output + cfg.formatMain("'."));
+					+ CommandUtils.formatIfNotAlready(output, cfg) + cfg.formatMain("'."));
 		}
 		else sender.sendMessage(result);
 		return true;

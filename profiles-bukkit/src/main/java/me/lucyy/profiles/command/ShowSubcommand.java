@@ -82,11 +82,8 @@ public class ShowSubcommand implements Subcommand {
                 .sorted(Comparator.comparingInt(ProfileField::getOrder)).forEach(field -> {
             if (!field.getKey().equals("subtitle")) {
             	String value = field.getValue(target.getUniqueId());
-            	if (field instanceof SimpleProfileField && ((SimpleProfileField) field).allowsColour())
-            		value = TextFormatter.format(value);
-            	else value = cfg.formatAccent(value);
                 output.append(cfg.formatMain(field.getDisplayName() + ": "))
-                        .append(value)
+                        .append(CommandUtils.formatIfNotAlready(value, cfg))
                         .append("\n");
 			}
         });

@@ -1,5 +1,7 @@
 package me.lucyy.profiles.command;
 
+import me.lucyy.common.command.FormatProvider;
+import me.lucyy.common.format.TextFormatter;
 import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.api.ProfileManager;
 import me.lucyy.profiles.api.SettableProfileField;
@@ -7,6 +9,7 @@ import me.lucyy.profiles.api.SettableProfileField;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.function.Predicate;
 
 public class CommandUtils {
@@ -29,5 +32,10 @@ public class CommandUtils {
             throw new AssertionError("This field can't be set manually.");
 
         return (SettableProfileField) field;
+    }
+
+    public static String formatIfNotAlready(String in, FormatProvider format) {
+        String formatted = TextFormatter.format(in);
+        return formatted.equals(in) ? format.formatAccent(in) : formatted;
     }
 }
