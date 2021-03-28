@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>profiles-papi</artifactId>
-    <version>1.0.3-r0-SNAPSHOT</version>
+    <version>1.0.3-r0</version>
 
     <build>
         <plugins>
