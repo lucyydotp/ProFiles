@@ -5,6 +5,7 @@ import me.lucyy.common.format.TextFormatter;
 import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.api.ProfileManager;
 import me.lucyy.profiles.api.SettableProfileField;
+import net.md_5.bungee.api.ChatColor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +36,8 @@ public class CommandUtils {
     }
 
     public static String formatIfNotAlready(String in, FormatProvider format) {
-        String formatted = TextFormatter.format(in);
+        if (in.contains(ChatColor.COLOR_CHAR + "")) return in;
+        String formatted = TextFormatter.format(in, null, true);
         return formatted.equals(in) ? format.formatAccent(in) : formatted;
     }
 }
