@@ -73,10 +73,8 @@ public class ConfigHandler implements FormatProvider {
 		return TextFormatter.format(formatter + content, overrides, true);
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	public String getAccentColour() {
-		return ChatColor.translateAlternateColorCodes('&',
-				getString("format.accent", "&3"));
+		return getString("format.accent", "&3");
 	}
 
 	@Override
@@ -84,10 +82,8 @@ public class ConfigHandler implements FormatProvider {
 		return applyFormatter(getAccentColour(), s, formatters);
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	public String getMainColour() {
-		return ChatColor.translateAlternateColorCodes('&',
-				getString("format.main", "&f"));
+		return getString("format.main", "&f");
 	}
 
 	@Override
