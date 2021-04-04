@@ -21,13 +21,18 @@ package me.lucyy.profiles.config;
 import me.lucyy.common.command.FormatProvider;
 import me.lucyy.common.format.TextFormatter;
 import me.lucyy.profiles.ProFiles;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Locale;
+import java.util.HashMap;
 
 public class ConfigHandler implements FormatProvider {
 	private final ProFiles plugin;
+	private final HashMap<TextDecoration, Character> decoStrings = new HashMap<>();
 
 	public ConfigHandler(ProFiles plugin) {
 		this.plugin = plugin;
@@ -49,7 +54,14 @@ public class ConfigHandler implements FormatProvider {
 		cfg.addDefault("mysql.password", "password");
 
 		plugin.saveConfig();
+
+		decoStrings.put(TextDecoration.OBFUSCATED, 'k');
+		decoStrings.put(TextDecoration.BOLD, 'l');
+		decoStrings.put(TextDecoration.STRIKETHROUGH, 'm');
+		decoStrings.put(TextDecoration.UNDERLINED, 'n');
+		decoStrings.put(TextDecoration.ITALIC, 'o');
 	}
+
 
 	private String getString(String key) {
 		return getString(key, null);
@@ -67,34 +79,46 @@ public class ConfigHandler implements FormatProvider {
 		return value;
 	}
 
-	private String applyFormatter(String formatter, String content, String overrides) {
-		if (formatter.contains("%s")) return TextFormatter.format(String.format(formatter, content), overrides, true);
-
-		return TextFormatter.format(formatter + content, overrides, true);
-	}
-
-	public String getAccentColour() {
-		return getString("format.accent", "&3");
-	}
-
-	@Override
-	public String formatAccent(String s, String formatters) {
-		return applyFormatter(getAccentColour(), s, formatters);
-	}
-
-	public String getMainColour() {
-		return getString("format.main", "&f");
-	}
-
-	@Override
-	public String formatMain(String s, String formatters) {
-		return applyFormatter(getMainColour(), s, formatters);
+	private Component applyFormatter(String formatter, String content, String formatters, boolean predefined) {
+		return formatter.contains("%s") ?
+				TextFormatter.format(String.format(formatter, content), formatters, predefined) :
+				TextFormatter.format(formatter + content, formatters, predefined);
 	}
 
 	@SuppressWarnings("ConstantConditions")
-	public String getPrefix() {
+	public String getAccentColour() {
+		return ChatColor.translateAlternateColorCodes('&',
+				getString("format.accent", "&3"));
+	}
+
+	private String serialiseFormatters(TextDecoration... formatters) {
+		if (formatters == null) return null;
+		StringBuilder out = new StringBuilder();
+		for (TextDecoration deco : formatters) out.append(decoStrings.get(deco));
+		return out.toString();
+	}
+
+	@Override
+	public Component formatAccent(@NotNull String s, TextDecoration[] formatters) {
+		return applyFormatter(getAccentColour(), s, serialiseFormatters(formatters), false);
+	}
+
+	@SuppressWarnings("ConstantConditions")
+	public String getMainColour() {
+		return ChatColor.translateAlternateColorCodes('&',
+				getString("format.main", "&f"));
+	}
+
+	@Override
+	public Component formatMain(@NotNull String s, TextDecoration[] formatters) {
+		return applyFormatter(getMainColour(), s, serialiseFormatters(formatters), false);
+	}
+
+	@SuppressWarnings("ConstantConditions")
+	public Component getPrefix() {
 		String prefix = getString("format.prefix", "");
-		if (prefix.equals("")) return formatAccent("Profile") + ChatColor.GRAY + " >> ";
+		if (prefix.equals("")) return formatAccent("Profile")
+				.append(Component.text(" >> ").color(NamedTextColor.GRAY));
 		return TextFormatter.format(getString("format.prefix"));
 	}
 

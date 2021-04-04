@@ -52,9 +52,11 @@ public class SetOtherSubcommand implements Subcommand {
         Player target = Bukkit.getPlayer(args[0]);
 
         if (target == null) {
-            sender.sendMessage(cfg.getPrefix() + cfg.formatMain("The player '")
-                    + cfg.formatAccent(args[0])
-                    + cfg.formatMain("' could not be found."));
+            sender.sendMessage(cfg.getPrefix()
+                    .append(cfg.formatMain("The player '"))
+                    .append(cfg.formatAccent(args[0]))
+                    .append(cfg.formatMain("' could not be found."))
+            );
             return true;
         }
 
@@ -62,7 +64,9 @@ public class SetOtherSubcommand implements Subcommand {
         try {
             field = CommandUtils.getSettableField(manager, args[1]);
         } catch (AssertionError e) {
-            sender.sendMessage(cfg.getPrefix() + cfg.formatMain(e.getMessage()));
+            sender.sendMessage(cfg.getPrefix()
+                    .append(cfg.formatMain(e.getMessage()))
+            );
             return true;
         }
         String value = CommandHelper.concatArgs(args, 2);
@@ -70,9 +74,13 @@ public class SetOtherSubcommand implements Subcommand {
 
         String result = field.setValue(target.getUniqueId(), value);
         if (result.equals(""))
-            sender.sendMessage(cfg.getPrefix() + cfg.formatMain("Set " + field.getDisplayName() + " to '")
-                    + cfg.formatAccent(value) + cfg.formatMain("' for player ")
-                    + cfg.formatAccent(target.getName()) + cfg.formatMain("."));
+            sender.sendMessage(cfg.getPrefix()
+                    .append(cfg.formatMain("Set " + field.getDisplayName() + " to '"))
+                    .append(cfg.formatAccent(value))
+                    .append(cfg.formatMain("' for player "))
+                    .append(cfg.formatAccent(target.getName()))
+                    .append(cfg.formatMain("."))
+            );
         else sender.sendMessage(result);
         return true;
     }

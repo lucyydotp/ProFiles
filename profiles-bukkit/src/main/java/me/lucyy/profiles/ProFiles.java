@@ -1,5 +1,6 @@
 package me.lucyy.profiles;
 
+import me.lucyy.common.DependencyChecker;
 import me.lucyy.common.command.Command;
 import me.lucyy.common.command.HelpSubcommand;
 import me.lucyy.common.command.VersionSubcommand;
@@ -35,6 +36,11 @@ public final class ProFiles extends JavaPlugin {
     @Override
     @SuppressWarnings("ConstantConditions")
     public void onEnable() {
+		if (!DependencyChecker.adventurePresent(this)) {
+			getPluginLoader().disablePlugin(this);
+			return;
+		}
+
 		Metrics metrics = new Metrics(this,10559);
 
 		config = new ConfigHandler(this);

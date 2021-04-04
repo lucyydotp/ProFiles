@@ -45,7 +45,8 @@ public class ClearSubcommand implements Subcommand {
         ConfigHandler cfg = plugin.getConfigHandler();
 
         if (!(target instanceof Player)) {
-            sender.sendMessage(cfg.getPrefix() + cfg.formatMain("This command can only be run by a player."));
+            sender.sendMessage(cfg.getPrefix()
+                    .append(cfg.formatMain("This command can only be run by a player.")));
             return true;
         }
 
@@ -56,7 +57,7 @@ public class ClearSubcommand implements Subcommand {
         try {
             field = CommandUtils.getSettableField(manager, args[0]);
         } catch (AssertionError e) {
-            sender.sendMessage(cfg.getPrefix() + cfg.formatMain(e.getMessage()));
+            sender.sendMessage(cfg.getPrefix().append(cfg.formatMain(e.getMessage())));
             return true;
         }
 
@@ -64,7 +65,7 @@ public class ClearSubcommand implements Subcommand {
 
         String result = field.clearValue(player.getUniqueId());
         if (result.equals(""))
-            sender.sendMessage(cfg.getPrefix() + cfg.formatMain("Cleared " + field.getDisplayName() + "."));
+            sender.sendMessage(cfg.getPrefix().append(cfg.formatMain("Cleared " + field.getDisplayName() + ".")));
         else sender.sendMessage(result);
 
 
