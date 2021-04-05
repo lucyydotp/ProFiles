@@ -8,6 +8,7 @@ import me.lucyy.common.update.UpdateChecker;
 import me.lucyy.profiles.api.ProfileManager;
 import me.lucyy.profiles.command.*;
 import me.lucyy.profiles.config.ConfigHandler;
+import me.lucyy.profiles.field.factory.DiscordFieldFactory;
 import me.lucyy.profiles.field.factory.PlaceholderFieldFactory;
 import me.lucyy.profiles.field.factory.ProNounsFieldFactory;
 import me.lucyy.profiles.field.factory.SimpleFieldFactory;
@@ -82,6 +83,7 @@ public final class ProFiles extends JavaPlugin {
 		profileManager.register("simple", new SimpleFieldFactory(profileManager));
         profileManager.register("pronouns", new ProNounsFieldFactory(depHandler));
 		profileManager.register("placeholder", new PlaceholderFieldFactory());
+		profileManager.register("discordsrv", new DiscordFieldFactory());
 
 		if (getConfigHandler().checkForUpdates()) {
         	new UpdateChecker(this,

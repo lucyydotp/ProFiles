@@ -31,117 +31,109 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 public class ConfigHandler implements FormatProvider {
-	private final ProFiles plugin;
-	private final HashMap<TextDecoration, Character> decoStrings = new HashMap<>();
+    private final ProFiles plugin;
+    private final HashMap<TextDecoration, Character> decoStrings = new HashMap<>();
 
-	public ConfigHandler(ProFiles plugin) {
-		this.plugin = plugin;
-		plugin.saveDefaultConfig();
+    public ConfigHandler(ProFiles plugin) {
+        this.plugin = plugin;
+        plugin.saveDefaultConfig();
 
-		FileConfiguration cfg = plugin.getConfig();
+        FileConfiguration cfg = plugin.getConfig();
 
-		cfg.addDefault("checkForUpdates", "true");
-		cfg.addDefault("format.accent", "&3");
-		cfg.addDefault("format.main", "&f");
-		cfg.addDefault("subtitle.enabled", "true");
+        cfg.addDefault("checkForUpdates", "true");
+        cfg.addDefault("format.accent", "&3");
+        cfg.addDefault("format.main", "&f");
+        cfg.addDefault("subtitle.enabled", "true");
 
-		cfg.addDefault("storage", "yml");
+        cfg.addDefault("storage", "yml");
 
-		cfg.addDefault( "mysql.host", "127.0.0.1");
-		cfg.addDefault("mysql.port", 3306);
-		cfg.addDefault("mysql.database", "profiles");
-		cfg.addDefault("mysql.username", "profiles");
-		cfg.addDefault("mysql.password", "password");
+        cfg.addDefault("mysql.host", "127.0.0.1");
+        cfg.addDefault("mysql.port", 3306);
+        cfg.addDefault("mysql.database", "profiles");
+        cfg.addDefault("mysql.username", "profiles");
+        cfg.addDefault("mysql.password", "password");
 
-		plugin.saveConfig();
+        plugin.saveConfig();
 
-		decoStrings.put(TextDecoration.OBFUSCATED, 'k');
-		decoStrings.put(TextDecoration.BOLD, 'l');
-		decoStrings.put(TextDecoration.STRIKETHROUGH, 'm');
-		decoStrings.put(TextDecoration.UNDERLINED, 'n');
-		decoStrings.put(TextDecoration.ITALIC, 'o');
-	}
+        decoStrings.put(TextDecoration.OBFUSCATED, 'k');
+        decoStrings.put(TextDecoration.BOLD, 'l');
+        decoStrings.put(TextDecoration.STRIKETHROUGH, 'm');
+        decoStrings.put(TextDecoration.UNDERLINED, 'n');
+        decoStrings.put(TextDecoration.ITALIC, 'o');
+    }
 
 
-	private String getString(String key) {
-		return getString(key, null);
-	}
+    private String getString(String key) {
+        return getString(key, null);
+    }
 
-	private String getString(String key, String defaultVal) {
-		String value = plugin.getConfig().getString(key);
-		if (value == null) {
-			if (defaultVal == null) {
-				plugin.getLogger().severe("Your config file is broken! Unable to read key '" + key);
-				return null;
-			}
-			return defaultVal;
-		}
-		return value;
-	}
+    private String getString(String key, String defaultVal) {
+        String value = plugin.getConfig().getString(key);
+        if (value == null) {
+            if (defaultVal == null) {
+                plugin.getLogger().severe("Your config file is broken! Unable to read key '" + key);
+                return null;
+            }
+            return defaultVal;
+        }
+        return value;
+    }
 
-	private Component applyFormatter(String formatter, String content, String formatters, boolean predefined) {
-		return formatter.contains("%s") ?
-				TextFormatter.format(String.format(formatter, content), formatters, predefined) :
-				TextFormatter.format(formatter + content, formatters, predefined);
-	}
+    private Component applyFormatter(String formatter, String content, String formatters, boolean predefined) {
+        return formatter.contains("%s") ?
+                TextFormatter.format(String.format(formatter, content), formatters, predefined) :
+                TextFormatter.format(formatter + content, formatters, predefined);
+    }
 
-	@SuppressWarnings("ConstantConditions")
-	public String getAccentColour() {
-		return ChatColor.translateAlternateColorCodes('&',
-				getString("format.accent", "&3"));
-	}
+    private String serialiseFormatters(TextDecoration... formatters) {
+        if (formatters == null) return null;
+        StringBuilder out = new StringBuilder();
+        for (TextDecoration deco : formatters) out.append(decoStrings.get(deco));
+        return out.toString();
+    }
 
-	private String serialiseFormatters(TextDecoration... formatters) {
-		if (formatters == null) return null;
-		StringBuilder out = new StringBuilder();
-		for (TextDecoration deco : formatters) out.append(decoStrings.get(deco));
-		return out.toString();
-	}
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    public Component formatAccent(@NotNull String s, TextDecoration[] formatters) {
+        return applyFormatter(getString("format.accent", "&3"), s,
+                serialiseFormatters(formatters), false);
+    }
 
-	@Override
-	public Component formatAccent(@NotNull String s, TextDecoration[] formatters) {
-		return applyFormatter(getAccentColour(), s, serialiseFormatters(formatters), false);
-	}
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    public Component formatMain(@NotNull String s, TextDecoration[] formatters) {
+        return applyFormatter(getString("format.main", "&f"), s,
+                serialiseFormatters(formatters), false);
+    }
 
-	@SuppressWarnings("ConstantConditions")
-	public String getMainColour() {
-		return ChatColor.translateAlternateColorCodes('&',
-				getString("format.main", "&f"));
-	}
+    @SuppressWarnings("ConstantConditions")
+    public Component getPrefix() {
+        String prefix = getString("format.prefix", "");
+        if (prefix.equals("")) return formatAccent("Profile")
+                .append(Component.text(" >> ").color(NamedTextColor.GRAY));
+        return TextFormatter.format(getString("format.prefix"));
+    }
 
-	@Override
-	public Component formatMain(@NotNull String s, TextDecoration[] formatters) {
-		return applyFormatter(getMainColour(), s, serialiseFormatters(formatters), false);
-	}
+    public boolean subtitleEnabled() {
+        return !"false".equals(getString("subtitle.enabled", "true"));
+    }
 
-	@SuppressWarnings("ConstantConditions")
-	public Component getPrefix() {
-		String prefix = getString("format.prefix", "");
-		if (prefix.equals("")) return formatAccent("Profile")
-				.append(Component.text(" >> ").color(NamedTextColor.GRAY));
-		return TextFormatter.format(getString("format.prefix"));
-	}
+    public boolean checkForUpdates() {
+        return !"false".equals(getString("checkForUpdates", "true"));
+    }
 
-	public boolean subtitleEnabled() {
-		return !"false".equals(getString("subtitle.enabled", "true"));
-	}
+    public SqlInfoContainer getSqlConnectionData() {
+        SqlInfoContainer info = new SqlInfoContainer();
+        info.host = getString("mysql.host");
+        info.port = plugin.getConfig().getInt("mysql.port", 3306);
+        info.database = getString("mysql.database");
+        info.username = getString("mysql.username");
+        info.password = getString("mysql.password");
+        return info;
+    }
 
-	public boolean checkForUpdates() {
-		return !"false".equals(getString("checkForUpdates", "true"));
-	}
-
-	public SqlInfoContainer getSqlConnectionData() {
-		SqlInfoContainer info = new SqlInfoContainer();
-		info.host = getString("mysql.host");
-		info.port = plugin.getConfig().getInt("mysql.port", 3306);
-		info.database = getString("mysql.database");
-		info.username = getString("mysql.username");
-		info.password = getString("mysql.password");
-		return info;
-	}
-
-	@SuppressWarnings("ConstantConditions")
-	public String getStorage() {
-		return getString("storage", "YML").toUpperCase();
-	}
+    @SuppressWarnings("ConstantConditions")
+    public String getStorage() {
+        return getString("storage", "YML").toUpperCase();
+    }
 }

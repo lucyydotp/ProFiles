@@ -7,7 +7,7 @@
     <parent>
         <groupId>me.lucyy</groupId>
         <artifactId>profiles</artifactId>
-        <version>1.0.4-beta1</version>
+        <version>1.0.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>profiles-bukkit</artifactId>
@@ -85,6 +85,10 @@
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+        <repository>
+            <id>Scarsz-Nexus</id>
+            <url>https://nexus.scarsz.me/content/groups/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -98,7 +102,7 @@
         <dependency>
             <groupId>me.lucyy</groupId>
             <artifactId>LucyCommonLib</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>me.lucyy</groupId>
@@ -135,6 +139,12 @@
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.10.9</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.discordsrv</groupId>
+            <artifactId>discordsrv</artifactId>
+            <version>1.21.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

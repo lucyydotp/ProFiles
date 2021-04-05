@@ -7,7 +7,6 @@ import me.lucyy.profiles.api.ProfileManager;
 import me.lucyy.profiles.api.SettableProfileField;
 import me.lucyy.profiles.field.SimpleProfileField;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
 
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ public class CommandUtils {
             return cfg.formatAccent(value);
         }
         valOut = TextFormatter.format(value, null, true);
-        if (!value.contains("\u00a7") && PlainComponentSerializer.plain().serialize(valOut).equals(value)) {
+        if (PlainComponentSerializer.plain().serialize(valOut).equals(value)) {
             return cfg.formatAccent(value);
         }
         return valOut;
