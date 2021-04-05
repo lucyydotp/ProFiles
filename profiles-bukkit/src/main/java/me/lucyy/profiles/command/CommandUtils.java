@@ -38,7 +38,7 @@ public class CommandUtils {
     public static Component serialiseField(ProfileField field, String value, FormatProvider cfg) {
         Component valOut;
         if (field instanceof SimpleProfileField && !((SimpleProfileField) field).allowsColour()) {
-            return cfg.formatAccent(value);
+            return cfg.formatAccent(value.replace("&.", ""));
         }
         valOut = TextFormatter.format(value, null, true);
         if (PlainComponentSerializer.plain().serialize(valOut).equals(value)) {
