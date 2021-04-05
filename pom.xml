@@ -6,7 +6,7 @@
 
     <groupId>me.lucyy</groupId>
     <artifactId>profiles</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.4-beta2</version>
 
     <name>ProFiles</name>
     <description>The ultimate profile plugin.</description>
