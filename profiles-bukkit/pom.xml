@@ -7,7 +7,7 @@
     <parent>
         <groupId>me.lucyy</groupId>
         <artifactId>profiles</artifactId>
-        <version>1.0.4-beta2</version>
+        <version>1.0.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>profiles-bukkit</artifactId>
@@ -102,7 +102,7 @@
         <dependency>
             <groupId>me.lucyy</groupId>
             <artifactId>LucyCommonLib</artifactId>
-            <version>1.4.2</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>me.lucyy</groupId>

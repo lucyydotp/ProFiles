@@ -94,14 +94,14 @@ public class ConfigHandler implements FormatProvider {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public Component formatAccent(@NotNull String s, TextDecoration[] formatters) {
+    public Component formatAccent(@NotNull String s, TextDecoration... formatters) {
         return applyFormatter(getString("format.accent", "&3"), s,
                 serialiseFormatters(formatters), false);
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public Component formatMain(@NotNull String s, TextDecoration[] formatters) {
+    public Component formatMain(@NotNull String s, TextDecoration... formatters) {
         return applyFormatter(getString("format.main", "&f"), s,
                 serialiseFormatters(formatters), false);
     }
