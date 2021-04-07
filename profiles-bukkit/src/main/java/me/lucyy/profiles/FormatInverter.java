@@ -1,6 +1,9 @@
 package me.lucyy.profiles;
 
 import me.lucyy.common.command.FormatProvider;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A wrapper around a {@link FormatProvider}, swapping the main and accent
@@ -14,28 +17,28 @@ public class FormatInverter implements FormatProvider {
     }
 
     @Override
-    public String formatMain(String input) {
+    public Component formatMain(@NotNull String input) {
         return base.formatAccent(input);
     }
 
     @Override
-    public String formatMain(String s, String s1) {
-        return base.formatAccent(s, s1);
+    public Component formatMain(@NotNull String s, @NotNull TextDecoration[] textDecorations) {
+        return base.formatAccent(s, textDecorations);
     }
 
-
     @Override
-    public String formatAccent(String input) {
+    public Component formatAccent(@NotNull String input) {
         return base.formatMain(input);
     }
 
     @Override
-    public String formatAccent(String s, String s1) {
-        return base.formatAccent(s, s1);
+    public Component formatAccent(@NotNull String s, @NotNull TextDecoration[] textDecorations) {
+        return base.formatMain(s, textDecorations);
     }
 
     @Override
-    public String getPrefix() {
-        return base.getPrefix();
+    public Component getPrefix() {
+        return null;
     }
+
 }

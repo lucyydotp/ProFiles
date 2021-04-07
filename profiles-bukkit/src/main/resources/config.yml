@@ -25,15 +25,20 @@ fields:
     type: "simple"
     order: 0
     displayName: "Name"
+  rank:
+    type: "placeholder"
+    order: 1
+    displayName: "Rank"
+    format: "%vault_prefix%"
   gender:
     type: "simple"
-    order: 1
+    order: 2
     displayName: "Gender"
   pronouns:
     type: "pronouns"
-    order: 2
+    order: 3
     displayName: "Pronouns"
   discord:
-    type: "simple"
-    order: 3
+    type: "discordsrv"
+    order: 4
     displayName: "Discord"

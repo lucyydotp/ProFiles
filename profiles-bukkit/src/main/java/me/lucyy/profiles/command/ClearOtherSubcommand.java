@@ -16,7 +16,7 @@ import java.util.List;
 public class ClearOtherSubcommand implements Subcommand {
 
     private final ProFiles plugin;
-    
+
     public ClearOtherSubcommand(ProFiles plugin) {
         this.plugin = plugin;
     }
@@ -52,9 +52,10 @@ public class ClearOtherSubcommand implements Subcommand {
         Player target = Bukkit.getPlayer(args[0]);
 
         if (target == null) {
-            sender.sendMessage(cfg.getPrefix() + cfg.formatMain("The player '")
-                    + cfg.formatAccent(args[0])
-                    + cfg.formatMain("' could not be found."));
+            sender.sendMessage(cfg.getPrefix()
+                    .append(cfg.formatMain("The player '"))
+                    .append(cfg.formatAccent(args[0]))
+                    .append(cfg.formatMain("' could not be found.")));
             return true;
         }
 
@@ -62,16 +63,18 @@ public class ClearOtherSubcommand implements Subcommand {
         try {
             field = CommandUtils.getSettableField(manager, args[1]);
         } catch (AssertionError e) {
-            sender.sendMessage(cfg.getPrefix() + cfg.formatMain(e.getMessage()));
+            sender.sendMessage(cfg.getPrefix().append(cfg.formatMain(e.getMessage())));
             return true;
         }
 
         String result = field.clearValue(target.getUniqueId());
         if (result.equals(""))
-            sender.sendMessage(cfg.getPrefix() + cfg.formatMain("Cleared '"
-                    + cfg.formatAccent(field.getDisplayName())
-                    + cfg.formatMain("' for player ") + cfg.formatAccent(target.getName())
-                    + cfg.formatMain(".")));
+            sender.sendMessage(cfg.getPrefix()
+                    .append(cfg.formatMain("Cleared '"))
+                    .append(cfg.formatAccent(field.getDisplayName()))
+                    .append(cfg.formatMain("' for player "))
+                    .append(cfg.formatAccent(target.getName()))
+                    .append(cfg.formatMain(".")));
         else sender.sendMessage(result);
 
         return true;

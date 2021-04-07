@@ -20,6 +20,19 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <stylesheetfile>profiles-api/src/main/javadoc/resources/javadoc.css</stylesheetfile>
+                    <docfilessubdirs>true</docfilessubdirs>
+                    <footer><![CDATA[
+                            <script src="{@docRoot}/resources/prism.js" type="text/javascript"></script>
+                        ]]></footer>
+                    <additionalOptions>&#45;&#45;allow-script-in-comments</additionalOptions>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

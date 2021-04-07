@@ -60,9 +60,13 @@ public class ReloadSubcommand implements Subcommand {
         try {
             pl.getProfileManager().loadFields();
         } catch (InvalidConfigurationException e) {
-            sender.sendMessage(handler.getPrefix() + handler.formatMain("Failed to reload ProFiles!\n" + e.getMessage()));
+            sender.sendMessage(handler.getPrefix()
+                    .append(handler.formatMain("Failed to reload ProFiles!\n" + e.getMessage()))
+            );
         }
-        sender.sendMessage(pl.getConfigHandler().getPrefix() + pl.getConfigHandler().formatMain("Reloaded"));
+        sender.sendMessage(pl.getConfigHandler().getPrefix()
+                .append(pl.getConfigHandler().formatMain("Reloaded"))
+        );
         return true;
     }
 }

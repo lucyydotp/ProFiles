@@ -1,18 +1,19 @@
 package me.lucyy.profiles.command;
 
 import me.lucyy.common.command.Subcommand;
-import me.lucyy.common.format.TextFormatter;
-import me.lucyy.profiles.config.ConfigHandler;
 import me.lucyy.profiles.ProFiles;
 import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.api.ProfileManager;
 import me.lucyy.profiles.api.SettableProfileField;
+import me.lucyy.profiles.config.ConfigHandler;
 import me.lucyy.profiles.field.SimpleProfileField;
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class SetSubcommand implements Subcommand {
 
@@ -46,7 +47,7 @@ public class SetSubcommand implements Subcommand {
 	public boolean execute(CommandSender sender, CommandSender target, String[] args) {
 		ConfigHandler cfg = plugin.getConfigHandler();
 		if (!(target instanceof Player)) {
-			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("This command can only be run by a player."));
+			sender.sendMessage(cfg.getPrefix().append(cfg.formatMain("This command can only be run by a player.")));
 			return true;
 		}
 
@@ -58,7 +59,7 @@ public class SetSubcommand implements Subcommand {
 		try {
 			field = CommandUtils.getSettableField(manager, args[0]);
 		} catch (AssertionError e) {
-			sender.sendMessage(cfg.getPrefix() + cfg.formatMain(e.getMessage()));
+			sender.sendMessage(cfg.getPrefix().append(cfg.formatMain(e.getMessage())));
 			return true;
 		}
 		StringBuilder value = new StringBuilder();
@@ -69,14 +70,20 @@ public class SetSubcommand implements Subcommand {
 
 		Player player = (Player) sender;
 
-		String output = value.toString();
-		if (field instanceof SimpleProfileField && !((SimpleProfileField) field).allowsColour()) {
-			output = ChatColor.stripColor(TextFormatter.format(output));
+		String setValue;
+		if (field instanceof SimpleProfileField && ((SimpleProfileField) field).allowsColour()) {
+			setValue = value.toString();
+		} else {
+			setValue = PlainComponentSerializer.plain().serialize(cfg.formatAccent(value.toString()));
 		}
-		String result = field.setValue(player.getUniqueId(), output);
+
+		String result = field.setValue(player.getUniqueId(), setValue);
 		if (result.equals("")) {
-			sender.sendMessage(cfg.getPrefix() + cfg.formatMain("Set " + field.getDisplayName() + " to '")
-					+ CommandUtils.formatIfNotAlready(output, cfg) + cfg.formatMain("'."));
+			sender.sendMessage(cfg.getPrefix()
+					.append(cfg.formatMain("Set " + field.getDisplayName() + " to "))
+					.append(CommandUtils.serialiseField(field, setValue, cfg))
+					.append(cfg.formatMain("."))
+			);
 		}
 		else sender.sendMessage(result);
 		return true;
