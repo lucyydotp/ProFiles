@@ -1,6 +1,6 @@
 package me.lucyy.profiles;
 
-import me.lucyy.common.command.FormatProvider;
+import me.lucyy.squirtgun.format.FormatProvider;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.jetbrains.annotations.NotNull;

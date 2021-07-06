@@ -52,7 +52,7 @@ public class SetOtherSubcommand implements Subcommand {
         Player target = Bukkit.getPlayer(args[0]);
 
         if (target == null) {
-            sender.sendMessage(cfg.getPrefix()
+            plugin.send(sender, cfg.getPrefix()
                     .append(cfg.formatMain("The player '"))
                     .append(cfg.formatAccent(args[0]))
                     .append(cfg.formatMain("' could not be found."))
@@ -64,7 +64,7 @@ public class SetOtherSubcommand implements Subcommand {
         try {
             field = CommandUtils.getSettableField(manager, args[1]);
         } catch (AssertionError e) {
-            sender.sendMessage(cfg.getPrefix()
+            plugin.send(sender, cfg.getPrefix()
                     .append(cfg.formatMain(e.getMessage()))
             );
             return true;
@@ -74,7 +74,7 @@ public class SetOtherSubcommand implements Subcommand {
 
         String result = field.setValue(target.getUniqueId(), value);
         if (result.equals(""))
-            sender.sendMessage(cfg.getPrefix()
+            plugin.send(sender, cfg.getPrefix()
                     .append(cfg.formatMain("Set " + field.getDisplayName() + " to '"))
                     .append(cfg.formatAccent(value))
                     .append(cfg.formatMain("' for player "))

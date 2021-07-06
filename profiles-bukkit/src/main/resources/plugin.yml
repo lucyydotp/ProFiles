@@ -1,5 +1,5 @@
 name: ProFiles
-version: ${project.version}
+version: @version@
 main: me.lucyy.profiles.ProFiles
 api-version: 1.16
 authors: [ __lucyy ]

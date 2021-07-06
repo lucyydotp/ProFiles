@@ -1,13 +1,14 @@
 package me.lucyy.profiles.command;
 
-import me.lucyy.common.command.FormatProvider;
-import me.lucyy.common.format.TextFormatter;
 import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.api.ProfileManager;
 import me.lucyy.profiles.api.SettableProfileField;
 import me.lucyy.profiles.field.SimpleProfileField;
+import me.lucyy.squirtgun.format.FormatProvider;
+import me.lucyy.squirtgun.format.TextFormatter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +43,7 @@ public class CommandUtils {
             return cfg.formatAccent(value.replace("&.", ""));
         }
         valOut = TextFormatter.format(value, null, true);
-        if (PlainComponentSerializer.plain().serialize(valOut).equals(value)) {
+        if (PlainTextComponentSerializer.plainText().serialize(valOut).equals(value)) {
             return cfg.formatAccent(value);
         }
         return valOut;

@@ -18,55 +18,38 @@
 
 package me.lucyy.profiles.command;
 
-import me.lucyy.common.command.Subcommand;
-import me.lucyy.profiles.config.ConfigHandler;
-import me.lucyy.profiles.ProFiles;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.jetbrains.annotations.NotNull;
 
-public class ReloadSubcommand implements Subcommand {
+import me.lucyy.profiles.ProFiles;
+import me.lucyy.profiles.config.ConfigHandler;
+import me.lucyy.squirtgun.command.context.CommandContext;
+import me.lucyy.squirtgun.command.node.AbstractNode;
+import me.lucyy.squirtgun.platform.audience.SquirtgunUser;
+import net.kyori.adventure.text.Component;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.jetbrains.annotations.Nullable;
+
+public class ReloadNode extends AbstractNode<SquirtgunUser> {
 
     private final ProFiles pl;
 
-    public ReloadSubcommand(ProFiles plugin) {
+    public ReloadNode(ProFiles plugin) {
+        super("admin", "Reloads the config.", "profiles.admin");
         pl = plugin;
     }
 
     @Override
-    public String getName() {
-        return "reload";
-    }
-
-    @Override
-    public String getDescription() {
-        return "ADMIN - reloads config";
-    }
-
-    @Override
-    public String getUsage() {
-        return "reload";
-    }
-
-    @Override
-    public String getPermission() {
-        return "profiles.admin";
-    }
-
-    @Override
-    public boolean execute(@NotNull final CommandSender sender, @NotNull final CommandSender target, @NotNull final String[] args) {
+    public @Nullable Component execute(CommandContext<SquirtgunUser> context) {
         ConfigHandler handler = pl.getConfigHandler();
         pl.reloadConfig();
         try {
             pl.getProfileManager().loadFields();
         } catch (InvalidConfigurationException e) {
-            sender.sendMessage(handler.getPrefix()
-                    .append(handler.formatMain("Failed to reload ProFiles!\n" + e.getMessage()))
-            );
+            e.printStackTrace();
+            return handler.getPrefix()
+                    .append(handler.formatMain(
+                            "Failed to reload ProFiles! See console for more info:\n" + e.getMessage()
+                    ));
         }
-        sender.sendMessage(pl.getConfigHandler().getPrefix()
-                .append(pl.getConfigHandler().formatMain("Reloaded"))
-        );
-        return true;
+        return handler.getPrefix().append(handler.formatMain("Reloaded"));
     }
 }

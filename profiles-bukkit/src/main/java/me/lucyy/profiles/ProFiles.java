@@ -1,6 +1,5 @@
 package me.lucyy.profiles;
 
-import me.lucyy.common.DependencyChecker;
 import me.lucyy.common.command.Command;
 import me.lucyy.common.command.HelpSubcommand;
 import me.lucyy.common.command.VersionSubcommand;
@@ -16,9 +15,12 @@ import me.lucyy.profiles.storage.MySqlFileStorage;
 import me.lucyy.profiles.storage.MysqlConnectionException;
 import me.lucyy.profiles.storage.Storage;
 import me.lucyy.profiles.storage.YamlStorage;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,6 +29,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public final class ProFiles extends JavaPlugin {
 
 	private final OptionalDependencyHandler depHandler = new OptionalDependencyHandler(this);
+	private BukkitAudiences audiences;
 	private ProfileManagerImpl profileManager;
 	private Storage storage;
 
@@ -36,13 +39,14 @@ public final class ProFiles extends JavaPlugin {
 		return profileManager;
 	}
 
+	public void send(CommandSender target, Component message) {
+		audiences.sender(target).sendMessage(message);
+	}
+
 	@Override
 	@SuppressWarnings("ConstantConditions")
 	public void onEnable() {
-		if (!DependencyChecker.adventurePresent(this)) {
-			getPluginLoader().disablePlugin(this);
-			return;
-		}
+		audiences = BukkitAudiences.create(this);
 		new Metrics(this, 10559);
 
 		config = new ConfigHandler(this);
@@ -67,12 +71,12 @@ public final class ProFiles extends JavaPlugin {
 
 		Command cmd = new Command(config);
 		cmd.register(new HelpSubcommand(cmd, config, this, "profile"));
-		cmd.register(new ReloadSubcommand(this));
+		cmd.register(new ReloadNode(this));
 		cmd.register(new VersionSubcommand(config, this));
-		cmd.register(new SetSubcommand(this));
-		cmd.register(new ClearSubcommand(this));
+		cmd.register(new SetFieldNode(profileManager, this));
+		cmd.register(new ClearNode(this));
 		cmd.register(new SetOtherSubcommand(this));
-		cmd.register(new ClearOtherSubcommand(this));
+		cmd.register(new ClearOtherNode(this));
 
 		ShowSubcommand defaultSub = new ShowSubcommand(this);
 		cmd.register(defaultSub);
