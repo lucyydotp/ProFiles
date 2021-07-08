@@ -2,9 +2,12 @@ plugins {
 	java
 }
 
+group = "me.lucyy"
+version = "1.1.0-SNAPSHOT"
+
 subprojects {
-	group = "me.lucyy"
-	version = "1.1.0-SNAPSHOT"
+	group = rootProject.group
+	version = rootProject.version
 
 	apply<JavaPlugin>()
 

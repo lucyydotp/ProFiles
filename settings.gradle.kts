@@ -4,5 +4,5 @@
 
 rootProject.name = "profiles"
 include(":profiles-api")
+include(":profiles-squirtgun")
 include(":profiles-bukkit")
-include(":profiles-papi")
