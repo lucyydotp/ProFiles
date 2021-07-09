@@ -46,7 +46,11 @@ public class ProfileManagerImpl implements ProfileManager {
             String type = params.get("type").toString();
             FieldFactory factory = factoryMap.get(type);
 
-            assertTrue(factory != null, "Field type '" + type + "' is unknown");
+            if (factory == null) {
+                platform.getLogger().warning("Field type '" + type + "' is unknown, the field '" + key
+                        + "' will be ignored");
+                continue;
+            }
 
             try {
                 fieldMap.put(key, factory.create(key, params));

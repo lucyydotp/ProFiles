@@ -7,12 +7,12 @@ import me.lucyy.squirtgun.command.node.CommandNode;
 import me.lucyy.squirtgun.platform.Platform;
 import me.lucyy.squirtgun.platform.audience.PermissionHolder;
 
-import java.util.Set;
+import java.util.Map;
 
 public interface ProFilesPlatform extends Platform {
     Storage getStorage();
 
-    Set<FieldFactory> getPlatformSpecificFields();
+    Map<String, FieldFactory> getPlatformSpecificFields();
 
     Config getConfig();
 

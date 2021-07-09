@@ -1,5 +1,7 @@
 package me.lucyy.profiles;
 
+import me.lucyy.profiles.api.FieldFactory;
+import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.command.*;
 import me.lucyy.profiles.config.Config;
 import me.lucyy.profiles.field.SimpleFieldFactory;
@@ -48,12 +50,12 @@ public final class ProFiles extends SquirtgunPlugin<ProFilesPlatform> {
 
         profileManager = new ProfileManagerImpl(getPlatform());
 
-        CommandNode<PermissionHolder> rootNode = SubcommandNode.withHelp(
+        CommandNode<PermissionHolder> rootNode = SubcommandNode.withFallback(
                 "profile",
                 "ProFiles root command",
                 null,
-                new SetFieldNode(profileManager),
                 new ShowNode(this),
+                new SetFieldNode(profileManager),
                 new ClearNode(profileManager),
                 new SetOtherNode(profileManager),
                 new ClearOtherNode(profileManager),
@@ -64,6 +66,7 @@ public final class ProFiles extends SquirtgunPlugin<ProFilesPlatform> {
         getPlatform().registerCommand(rootNode);
 
         profileManager.register("simple", new SimpleFieldFactory(profileManager));
+        getPlatform().getPlatformSpecificFields().forEach(profileManager::register);
 
         final Config config = getPlatform().getConfig();
         if (config.checkForUpdates()) {
@@ -87,7 +90,6 @@ public final class ProFiles extends SquirtgunPlugin<ProFilesPlatform> {
                 } catch (InvalidConfigurationException e) {
                     getPlatform().getLogger().severe("Failed to load config: " + e.getMessage());
                 }
-            }).delay(0)
-                .build().execute(getPlatform());
+            }).build().execute(getPlatform());
     }
 }

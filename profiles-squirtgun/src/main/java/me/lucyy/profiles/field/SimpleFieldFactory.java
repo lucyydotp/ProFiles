@@ -14,10 +14,10 @@ public class SimpleFieldFactory implements FieldFactory {
 
     @Override
     public SimpleProfileField create(String key, Map<String, Object> cfg) {
-        boolean allowColour = cfg.get("allowColour").equals(true);
         return new SimpleProfileField(manager, key,
                 (String) cfg.get("displayName"),
                 (Integer) cfg.get("order"),
-                allowColour);
+                Boolean.TRUE.equals(cfg.get("allowColour"))
+        );
     }
 }

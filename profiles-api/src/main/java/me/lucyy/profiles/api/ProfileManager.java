@@ -20,7 +20,7 @@ public interface ProfileManager {
 
     /**
      * Registers a field factory for use in the config.
-     * @param key a globally unique string for use in the config to identify this field. Valid chars are A-Z, a-z, 0-9, underscore. hyphen
+     * @param key a globally unique string for use in the config to identify this field. Valid chars are A-Z, a-z, 0-9, underscore, hyphen
      * @param factory the factory to register
      * @throws IllegalArgumentException if the key contains invalid characters
      * @throws IllegalStateException if the key has already been registered

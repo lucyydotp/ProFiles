@@ -3,11 +3,13 @@ package me.lucyy.profiles.bukkit;
 import me.lucyy.profiles.config.Config;
 import me.lucyy.profiles.config.SqlInfoContainer;
 import me.lucyy.squirtgun.format.FormatProvider;
+import me.lucyy.squirtgun.format.TextFormatter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.util.RGBLike;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
@@ -90,12 +92,16 @@ public class BukkitConfig implements Config {
         return new FormatProvider() {
             @Override
             public Component formatMain(@NotNull String input, @NotNull TextDecoration[] formatters) {
-                return Component.text(input);
+                Component out = Component.text(input).color(NamedTextColor.WHITE);
+                for (TextDecoration deco : formatters) out = out.decorate(deco);
+                return out;
             }
 
             @Override
             public Component formatAccent(@NotNull String input, @NotNull TextDecoration[] formatters) {
-                return Component.text(input).color(TextColor.fromCSSHexString("#99ffcc"));
+                Component out = Component.text(input).color(TextColor.fromCSSHexString("#99ffcc"));
+                for (TextDecoration deco : formatters) out = out.decorate(deco);
+                return out;
             }
 
             @Override
@@ -123,6 +129,21 @@ public class BukkitConfig implements Config {
 
     @Override
     public Map<String, Map<String, Object>> fields() {
-        return null;
+        ConfigurationSection cfg = plugin.getConfig().getConfigurationSection("fields");
+        if (cfg == null) return null;
+
+        Map<String, Map<String, Object>> out = new HashMap<>();
+        for (String sub : cfg.getKeys(false)) {
+
+            Map<String, Object> params = new HashMap<>();
+            ConfigurationSection subSection = cfg.getConfigurationSection(sub);
+            Objects.requireNonNull(subSection); // this is safe, keys are obtained from getKeys()
+            for (String key : subSection.getKeys(false)) {
+                params.put(key, subSection.get(key));
+            }
+
+            out.put(sub, params);
+        }
+        return out;
     }
 }

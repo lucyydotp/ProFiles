@@ -6,11 +6,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class ProFilesBukkit extends JavaPlugin {
 
-    private final ProFilesPlatform platform = new ProFilesBukkitPlatform(this);
+    private ProFilesPlatform platform;
     private ProFiles plugin;
 
     @Override
     public void onEnable() {
+        platform = new ProFilesBukkitPlatform(this);
         plugin = new ProFiles(platform);
+        plugin.onEnable();
+    }
+
+    public ProFiles getPlugin() {
+        return plugin;
     }
 }

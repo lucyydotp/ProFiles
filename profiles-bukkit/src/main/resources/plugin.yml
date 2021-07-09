@@ -1,6 +1,6 @@
 name: ProFiles
 version: @version@
-main: me.lucyy.profiles.ProFiles
+main: me.lucyy.profiles.bukkit.ProFilesBukkit
 api-version: 1.16
 authors: [ __lucyy ]
 description: The ultimate profile plugin.
