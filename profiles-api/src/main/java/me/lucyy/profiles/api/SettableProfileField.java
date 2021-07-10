@@ -25,7 +25,7 @@ public abstract class SettableProfileField extends ProfileField {
 	 */
 	public abstract String clearValue(UUID player);
 
-	protected SettableProfileField(String key, String displayName, int order) {
-		super(key, displayName, order);
+	protected SettableProfileField(String key) {
+		super(key);
 	}
 }

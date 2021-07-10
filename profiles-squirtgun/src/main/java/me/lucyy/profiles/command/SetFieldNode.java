@@ -11,7 +11,6 @@ import me.lucyy.squirtgun.command.node.AbstractNode;
 import me.lucyy.squirtgun.format.FormatProvider;
 import me.lucyy.squirtgun.platform.audience.PermissionHolder;
 import me.lucyy.squirtgun.platform.audience.SquirtgunPlayer;
-import me.lucyy.squirtgun.platform.audience.SquirtgunUser;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,7 +50,7 @@ public class SetFieldNode extends AbstractNode<PermissionHolder> {
         ((SettableProfileField) field).setValue(player.getUuid(), value);
 
         return fmt.getPrefix()
-                .append(fmt.formatMain("Set " + field.getDisplayName() + " to "))
+                .append(fmt.formatMain("Set " + field.displayName() + " to "))
                 .append(CommandUtils.serialiseField(field, value, fmt))
                 .append(fmt.formatMain("."));
     }

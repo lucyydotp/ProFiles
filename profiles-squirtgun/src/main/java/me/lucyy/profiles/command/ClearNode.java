@@ -10,7 +10,6 @@ import me.lucyy.squirtgun.command.node.AbstractNode;
 import me.lucyy.squirtgun.format.FormatProvider;
 import me.lucyy.squirtgun.platform.audience.PermissionHolder;
 import me.lucyy.squirtgun.platform.audience.SquirtgunPlayer;
-import me.lucyy.squirtgun.platform.audience.SquirtgunUser;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,6 +36,6 @@ public class ClearNode extends AbstractNode<PermissionHolder> {
 
         SquirtgunPlayer player = (SquirtgunPlayer) context.getTarget();
         ((SettableProfileField) field).clearValue(player.getUuid());
-        return fmt.getPrefix().append(fmt.formatMain("Cleared " + field.getDisplayName() + "."));
+        return fmt.getPrefix().append(fmt.formatMain("Cleared " + field.displayName() + "."));
     }
 }

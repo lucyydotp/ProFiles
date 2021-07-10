@@ -4,6 +4,7 @@ import me.lucyy.profiles.api.SettableProfileField;
 import me.lucyy.pronouns.api.PronounHandler;
 import me.lucyy.pronouns.api.set.PronounSet;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -12,9 +13,14 @@ public class ProNounsProfileField extends SettableProfileField {
 
 	private final PronounHandler pronounHandler;
 
-	public ProNounsProfileField(String key, String displayName, int order, PronounHandler handler) {
-		super(key, displayName, order);
-		this.pronounHandler = handler;
+	public ProNounsProfileField(String key) {
+		super(key);
+		if (Bukkit.getServer().getPluginManager().getPlugin("ProNouns") == null) {
+			pronounHandler = null;
+		} else {
+			RegisteredServiceProvider<PronounHandler> provider = Bukkit.getServicesManager().getRegistration(PronounHandler.class);
+			pronounHandler = provider == null ? null : provider.getProvider();
+		}
 	}
 
 	@Override

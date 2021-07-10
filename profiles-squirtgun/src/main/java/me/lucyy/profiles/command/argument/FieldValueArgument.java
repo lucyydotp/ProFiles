@@ -6,17 +6,14 @@ import me.lucyy.profiles.field.SimpleProfileField;
 import me.lucyy.squirtgun.command.argument.AbstractArgument;
 import me.lucyy.squirtgun.command.argument.CommandArgument;
 import me.lucyy.squirtgun.command.context.CommandContext;
-import me.lucyy.squirtgun.format.TextFormatter;
 import me.lucyy.squirtgun.platform.audience.PermissionHolder;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
-import java.util.stream.Collectors;
 
 public class FieldValueArgument extends AbstractArgument<String> {
 
@@ -53,7 +50,7 @@ public class FieldValueArgument extends AbstractArgument<String> {
         ProfileField field = context.getArgumentValue(fieldArgument);
 
         String out = field instanceof SettableProfileField ? "<"
-                + field.getDisplayName().toLowerCase(Locale.ROOT) + ">" : "You can't set this field!";
+                + field.displayName().toLowerCase(Locale.ROOT) + ">" : "You can't set this field!";
         if (field instanceof SimpleProfileField && ((SimpleProfileField) field).allowsColour()) {
             out = "<this field supports colour>";
         }

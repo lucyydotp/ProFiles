@@ -33,7 +33,7 @@ public class FieldArgument extends AbstractArgument<ProfileField> {
         // not optional - this will always be non-null
         Objects.requireNonNull(name);
         return manager.getFields().stream()
-                .map(ProfileField::getKey)
+                .map(ProfileField::key)
                 .filter(key -> key.startsWith(name.toLowerCase(Locale.ROOT)))
                 .collect(Collectors.toList());
     }

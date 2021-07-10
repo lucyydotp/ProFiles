@@ -5,16 +5,16 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.User;
 import me.lucyy.profiles.api.ProfileField;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class DiscordProfileField extends ProfileField {
 
     private final boolean discordSrvPresent;
 
-    public DiscordProfileField(String key, String displayName, int order) {
-        super(key, displayName, order);
+    public DiscordProfileField(String key) {
+        super(key);
 		Plugin pl = Bukkit.getPluginManager().getPlugin("DiscordSRV");
         this.discordSrvPresent = pl != null && pl.isEnabled();
     }

@@ -11,7 +11,6 @@ import me.lucyy.squirtgun.format.FormatProvider;
 import me.lucyy.squirtgun.format.TextFormatter;
 import me.lucyy.squirtgun.platform.audience.PermissionHolder;
 import me.lucyy.squirtgun.platform.audience.SquirtgunPlayer;
-import me.lucyy.squirtgun.platform.audience.SquirtgunUser;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -66,10 +65,10 @@ public class ShowNode extends AbstractNode<PermissionHolder> {
 
         final SquirtgunPlayer finalTarget = target;
         plugin.getProfileManager().getFields().stream()
-                .sorted(Comparator.comparingInt(ProfileField::getOrder)).forEach(field -> {
-            if (!field.getKey().equals("subtitle")) {
+                .sorted(Comparator.comparingInt(ProfileField::order)).forEach(field -> {
+            if (!field.key().equals("subtitle")) {
                 String value = field.getValue(finalTarget.getUuid());
-                output[0] = output[0].append(fmt.formatMain(field.getDisplayName() + ": "))
+                output[0] = output[0].append(fmt.formatMain(field.displayName() + ": "))
                         .append(serialiseField(field, value, fmt))
                         .append(nl);
             }

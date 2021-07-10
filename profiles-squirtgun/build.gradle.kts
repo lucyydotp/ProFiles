@@ -11,6 +11,8 @@ dependencies {
     implementation("net.kyori:adventure-text-serializer-legacy:4.7.0")
     implementation("net.kyori:adventure-text-serializer-plain:4.7.0")
     implementation("net.kyori:adventure-platform-bukkit:4.0.0-SNAPSHOT")
+
+    implementation("commons-lang:commons-lang:2.6")
 }
 
 description = "profiles-squirtgun"

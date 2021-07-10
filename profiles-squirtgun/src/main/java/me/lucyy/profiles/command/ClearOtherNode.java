@@ -11,7 +11,6 @@ import me.lucyy.squirtgun.command.node.AbstractNode;
 import me.lucyy.squirtgun.format.FormatProvider;
 import me.lucyy.squirtgun.platform.audience.PermissionHolder;
 import me.lucyy.squirtgun.platform.audience.SquirtgunPlayer;
-import me.lucyy.squirtgun.platform.audience.SquirtgunUser;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,7 +45,7 @@ public class ClearOtherNode extends AbstractNode<PermissionHolder> {
         ((SettableProfileField) field).clearValue(target.getUuid());
         return fmt.getPrefix()
                 .append(fmt.formatMain("Cleared '"))
-                .append(fmt.formatAccent(field.getDisplayName()))
+                .append(fmt.formatAccent(field.displayName()))
                 .append(fmt.formatMain("' for player "))
                 .append(fmt.formatAccent(target.getUsername()))
                 .append(fmt.formatMain("."));

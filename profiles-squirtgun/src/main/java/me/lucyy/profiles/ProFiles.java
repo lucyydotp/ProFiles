@@ -1,16 +1,13 @@
 package me.lucyy.profiles;
 
-import me.lucyy.profiles.api.FieldFactory;
-import me.lucyy.profiles.api.ProfileField;
 import me.lucyy.profiles.command.*;
 import me.lucyy.profiles.config.Config;
-import me.lucyy.profiles.field.SimpleFieldFactory;
+import me.lucyy.profiles.field.SimpleProfileField;
 import me.lucyy.squirtgun.command.node.CommandNode;
 import me.lucyy.squirtgun.command.node.PluginInfoNode;
 import me.lucyy.squirtgun.command.node.subcommand.SubcommandNode;
 import me.lucyy.squirtgun.format.FormatProvider;
 import me.lucyy.squirtgun.platform.audience.PermissionHolder;
-import me.lucyy.squirtgun.platform.audience.SquirtgunUser;
 import me.lucyy.squirtgun.platform.scheduler.Task;
 import me.lucyy.squirtgun.plugin.SquirtgunPlugin;
 import me.lucyy.squirtgun.update.PolymartUpdateChecker;
@@ -20,10 +17,17 @@ import org.jetbrains.annotations.NotNull;
 
 public final class ProFiles extends SquirtgunPlugin<ProFilesPlatform> {
 
+    private static ProFiles instance;
+
     private ProfileManagerImpl profileManager;
 
     public ProFiles(@NotNull ProFilesPlatform platform) {
         super(platform);
+        instance = this;
+    }
+
+    public static ProFiles getInstance() {
+        return instance;
     }
 
     public ProfileManagerImpl getProfileManager() {
@@ -65,7 +69,7 @@ public final class ProFiles extends SquirtgunPlugin<ProFilesPlatform> {
 
         getPlatform().registerCommand(rootNode);
 
-        profileManager.register("simple", new SimpleFieldFactory(profileManager));
+        profileManager.register("simple", SimpleProfileField.class);
         getPlatform().getPlatformSpecificFields().forEach(profileManager::register);
 
         final Config config = getPlatform().getConfig();

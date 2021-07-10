@@ -1,10 +1,8 @@
 package me.lucyy.profiles.bukkit;
 
 import me.lucyy.profiles.ProFilesPlatform;
-import me.lucyy.profiles.api.FieldFactory;
-import me.lucyy.profiles.bukkit.field.DiscordFieldFactory;
-import me.lucyy.profiles.bukkit.field.PlaceholderFieldFactory;
-import me.lucyy.profiles.bukkit.field.ProNounsFieldFactory;
+import me.lucyy.profiles.api.ProfileField;
+import me.lucyy.profiles.bukkit.field.*;
 import me.lucyy.profiles.config.Config;
 import me.lucyy.profiles.storage.MysqlConnectionException;
 import me.lucyy.profiles.storage.MysqlFileStorage;
@@ -25,10 +23,10 @@ public class ProFilesBukkitPlatform extends BukkitPlatform implements ProFilesPl
     private final Config config;
     private final JavaPlugin plugin;
     private Storage storage;
-    private final Map<String, FieldFactory> fields = Map.of(
-            "pronouns", new ProNounsFieldFactory(),
-            "discordsrv", new DiscordFieldFactory(),
-            "placeholder", new PlaceholderFieldFactory()
+    private final Map<String, Class<? extends ProfileField>> fields = Map.of(
+            "pronouns", ProNounsProfileField.class,
+            "discordsrv", DiscordProfileField.class,
+            "placeholder", PlaceholderProfileField.class
     );
 
     public ProFilesBukkitPlatform(ProFilesBukkit plugin) {
@@ -60,7 +58,7 @@ public class ProFilesBukkitPlatform extends BukkitPlatform implements ProFilesPl
     }
 
     @Override
-    public Map<String, FieldFactory> getPlatformSpecificFields() {
+    public Map<String, Class<? extends ProfileField>> getPlatformSpecificFields() {
         return fields;
     }
 
