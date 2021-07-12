@@ -47,11 +47,12 @@ public class SetFieldNode extends AbstractNode<PermissionHolder> {
 
         SquirtgunPlayer player = (SquirtgunPlayer) context.getTarget();
         String value = context.getArgumentValue(valueArg);
-        ((SettableProfileField) field).setValue(player.getUuid(), value);
+        Component result = ((SettableProfileField) field).setValue(player.getUuid(), value);
 
-        return fmt.getPrefix()
+        return result == null ? fmt.getPrefix()
                 .append(fmt.formatMain("Set " + field.displayName() + " to "))
                 .append(CommandUtils.serialiseField(field, value, fmt))
-                .append(fmt.formatMain("."));
+                .append(fmt.formatMain("."))
+                : result;
     }
 }

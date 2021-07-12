@@ -1,12 +1,10 @@
 package me.lucyy.profiles.field;
 
 import me.lucyy.profiles.ProFiles;
-import me.lucyy.profiles.ProFilesPlatform;
-import me.lucyy.profiles.ProfileManagerImpl;
 import me.lucyy.profiles.api.ProfileFieldParameter;
 import me.lucyy.profiles.api.SettableProfileField;
+import net.kyori.adventure.text.Component;
 
-import java.util.Map;
 import java.util.UUID;
 
 public class SimpleProfileField extends SettableProfileField {
@@ -24,15 +22,15 @@ public class SimpleProfileField extends SettableProfileField {
 	}
 
 	@Override
-	public String setValue(UUID player, String value) {
+	public Component setValue(UUID player, String value) {
 		ProFiles.getInstance().getPlatform().getStorage().setField(player, key(), value);
-		return "";
+		return null;
 	}
 
 	@Override
-	public String clearValue(UUID player) {
+	public Component clearValue(UUID player) {
 		ProFiles.getInstance().getPlatform().getStorage().clearField(player, key());
-		return "";
+		return null;
 	}
 
 	public boolean allowsColour() {

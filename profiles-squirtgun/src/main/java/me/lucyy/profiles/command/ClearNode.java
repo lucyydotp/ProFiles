@@ -11,7 +11,10 @@ import me.lucyy.squirtgun.format.FormatProvider;
 import me.lucyy.squirtgun.platform.audience.PermissionHolder;
 import me.lucyy.squirtgun.platform.audience.SquirtgunPlayer;
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class ClearNode extends AbstractNode<PermissionHolder> {
 
@@ -20,6 +23,11 @@ public class ClearNode extends AbstractNode<PermissionHolder> {
     public ClearNode(ProfileManager manager) {
         super("clear", "Clear a field.", null);
         fieldArg = new FieldArgument(manager);
+    }
+
+    @Override
+    public @NotNull List<CommandArgument<?>> getArguments() {
+        return List.of(fieldArg);
     }
 
     @Override
@@ -35,7 +43,9 @@ public class ClearNode extends AbstractNode<PermissionHolder> {
         }
 
         SquirtgunPlayer player = (SquirtgunPlayer) context.getTarget();
-        ((SettableProfileField) field).clearValue(player.getUuid());
-        return fmt.getPrefix().append(fmt.formatMain("Cleared " + field.displayName() + "."));
+        Component result = ((SettableProfileField) field).clearValue(player.getUuid());
+        return result == null ?
+                fmt.getPrefix().append(fmt.formatMain("Cleared " + field.displayName() + "."))
+                : result;
     }
 }

@@ -16,9 +16,9 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.10.9")
     compileOnly("com.discordsrv:discordsrv:1.23.0")
 
-    implementation("me.lucyy:squirtgun-api:2.0.0-pre4")
-    implementation("me.lucyy:squirtgun-commands:2.0.0-pre4")
-    implementation("me.lucyy:squirtgun-platform-bukkit:2.0.0-pre4")
+    implementation("me.lucyy:squirtgun-api:2.0.0-pre5")
+    implementation("me.lucyy:squirtgun-commands:2.0.0-pre5")
+    implementation("me.lucyy:squirtgun-platform-bukkit:2.0.0-pre5")
 }
 
 tasks {

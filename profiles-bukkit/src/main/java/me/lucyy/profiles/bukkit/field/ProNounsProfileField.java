@@ -5,6 +5,7 @@ import me.lucyy.pronouns.api.PronounHandler;
 import me.lucyy.pronouns.api.set.PronounSet;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -30,16 +31,16 @@ public class ProNounsProfileField extends SettableProfileField {
 	}
 
 	@Override
-	public String setValue(UUID player, String value) {
-		if (pronounHandler == null) return "ProNouns is not installed!";
+	public @Nullable Component setValue(UUID player, String value) {
+		if (pronounHandler == null) return Component.text("ProNouns is not installed!");
 		Bukkit.dispatchCommand(Objects.requireNonNull(Bukkit.getPlayer(player)), "pronouns set " + value);
-		return " ";
+		return Component.empty();
 	}
 
 	@Override
-	public String clearValue(UUID player) {
-		if (pronounHandler == null) return "ProNouns is not installed!";
+	public Component clearValue(UUID player) {
+		if (pronounHandler == null) return Component.text("ProNouns is not installed!");
 		Bukkit.dispatchCommand(Objects.requireNonNull(Bukkit.getPlayer(player)), "pronouns clear");
-		return " ";
+		return Component.empty();
 	}
 }
