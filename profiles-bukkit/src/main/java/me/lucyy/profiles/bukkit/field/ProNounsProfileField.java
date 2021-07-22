@@ -3,6 +3,7 @@ package me.lucyy.profiles.bukkit.field;
 import me.lucyy.profiles.api.SettableProfileField;
 import me.lucyy.pronouns.api.PronounHandler;
 import me.lucyy.pronouns.api.set.PronounSet;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.jetbrains.annotations.Nullable;

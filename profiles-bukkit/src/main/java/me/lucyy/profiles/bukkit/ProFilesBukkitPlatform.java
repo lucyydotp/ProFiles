@@ -75,4 +75,9 @@ public class ProFilesBukkitPlatform extends BukkitPlatform implements ProFilesPl
         command.setExecutor(executor);
         command.setTabCompleter(executor);
     }
+
+    @Override
+    public String name() {
+        return "Bukkit (ProFiles)";
+    }
 }

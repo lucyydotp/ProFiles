@@ -49,6 +49,9 @@ public class FieldValueArgument extends AbstractArgument<String> {
     public @Nullable List<String> tabComplete(Queue<String> args, CommandContext<? extends PermissionHolder> context) {
         ProfileField field = context.getArgumentValue(fieldArgument);
 
+        // empty the queue
+        args.removeIf(x -> true);
+
         String out = field instanceof SettableProfileField ? "<"
                 + field.displayName().toLowerCase(Locale.ROOT) + ">" : "You can't set this field!";
         if (field instanceof SimpleProfileField && ((SimpleProfileField) field).allowsColour()) {
