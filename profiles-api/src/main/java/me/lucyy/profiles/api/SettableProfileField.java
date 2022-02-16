@@ -1,5 +1,8 @@
 package me.lucyy.profiles.api;
 
+import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.UUID;
 
 /**
@@ -13,19 +16,19 @@ public abstract class SettableProfileField extends ProfileField {
 	 *
 	 * @param player the player to set this field for
 	 * @param value  the value to set
-	 * @return A message to send the player indicating success or failure, or an empty string to indicate a success
+	 * @return An optional message to send the player. If null, a message will be generated.
 	 */
-	public abstract String setValue(UUID player, String value);
+	public abstract @Nullable Component setValue(UUID player, String value);
 
 	/**
 	 * Clears the value of this field.
 	 *
 	 * @param player the player to clear this field for
-	 * @return A message to send the player indicating success or failure, or an empty string to indicate a success
+	 * @return An optional message to send the player. If null, a message will be generated.
 	 */
-	public abstract String clearValue(UUID player);
+	public abstract @Nullable Component clearValue(UUID player);
 
-	protected SettableProfileField(String key, String displayName, int order) {
-		super(key, displayName, order);
+	protected SettableProfileField(String key) {
+		super(key);
 	}
 }
